@@ -1,0 +1,92 @@
+## This function handles making vanilla tools big for smolmen
+
+advancement smolmen:technical/picked_up_tool {
+    "criteria": {
+        "requirement": {
+        "trigger": "minecraft:inventory_changed",
+        "conditions": {
+            "items": [
+                    {
+                        "items": "#tools"
+                    }
+                ]
+            }
+        }
+    },
+    "rewards": {
+        "function": "smolmen:big_tools/trigger"
+    }
+}
+
+item_modifier smolmen:technical/enlarge_tool {
+    "function": "set_components",
+    "components": {
+        "minecraft:custom_model_data": 1,
+    }
+}
+
+item_modifier smolmen:technical/shrink_tool {
+    "function": "set_components",
+    "components": {
+        "!minecraft:custom_model_data": {},
+    }
+}
+
+predicate smolmen:technical/holding_tool {
+  "condition": "minecraft:any_of",
+  "terms": [
+    {
+      "condition": "minecraft:entity_properties",
+      "entity": "this",
+      "predicate": {
+        "equipment": {
+          "mainhand": {
+            "items": "#minecraft:tools"
+          }
+        }
+      }
+    },
+    {
+      "condition": "minecraft:entity_properties",
+      "entity": "this",
+      "predicate": {
+        "equipment": {
+          "offhand": {
+            "items": "#minecraft:tools"
+          }
+        }
+      }
+    }
+  ]
+}
+
+
+function ~/trigger:
+    advancement revoke @s only smolmen:technical/picked_up_tool
+
+    for i in range(36):
+        raw (f"execute if items entity @s container.{i} #tools run item modify entity @s container.{i} smolmen:technical/enlarge_tool") 
+
+
+function ~/reset_item:
+   raw item modify entity @s contents smolmen:technical/shrink_tool
+   data remove entity @s Item.components."minecraft:attribute_modifiers"
+
+function ~/apply_debuffs:
+    raw attribute @s minecraft:generic.attack_speed modifier add 1234-0-1-0-1 smolSlowSwing -0.33 add_multiplied_total
+    raw attribute @s minecraft:generic.movement_speed modifier add 1234-0-1-0-2 smolSlowWalk -0.33 add_multiplied_base
+    tag @s add smolmen.debuffed 
+
+
+function ~/remove_debuffs:
+    raw attribute @s minecraft:generic.attack_speed modifier remove 1234-0-1-0-1
+    raw attribute @s minecraft:generic.movement_speed modifier remove 1234-0-1-0-2
+
+    tag @s remove smolmen.debuffed
+
+append function ./check_items:
+    raw execute if items entity @s contents #tools run function smolmen:big_tools/reset_item
+
+append function ./tick:
+    as @a[predicate=smolmen:technical/holding_tool,tag=!smolmen.debuffed] function ./big_tools/apply_debuffs
+    as @a[predicate=!smolmen:technical/holding_tool,tag=smolmen.debuffed] function ./big_tools/remove_debuffs

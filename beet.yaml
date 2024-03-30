@@ -1,0 +1,27 @@
+name: Smol Men 
+version: '0.0.1'
+minecraft: "1.20"
+
+pipeline:
+  - mecha
+
+require:
+  - mecha.contrib.raw
+  - bolt
+  - plugins.generate_tool_models
+
+data_pack:
+  name: Smol Men
+  load:
+    - .
+
+resource_pack:
+  name: Smol Men [RP]
+  load:
+    - .
+
+output: '__dist__'
+
+meta:
+  bolt:
+    entrypoint: "*"

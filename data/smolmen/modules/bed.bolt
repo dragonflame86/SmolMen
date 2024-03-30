@@ -1,0 +1,121 @@
+from nbtlib import Double
+
+advancement smolmen:technical/interact_smol_bed {
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+                "type": "minecraft:interaction",
+                "nbt": "{Tags: [\"smolmen.bed.interaction\"]}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "function": "smolmen:bed/interact"
+  }
+}
+
+predicate smolmen:is_sleeping {
+  "condition": "minecraft:entity_properties",
+  "entity": "this",
+  "predicate": {
+    "vehicle": {
+      "nbt": "{Tags:[\"smolmen.bed.ride\"]}"
+    }
+  }
+}
+
+
+function ~/interact:
+    advancement revoke @s only smolmen:technical/interact_smol_bed
+    tag @s add smolmen.source
+    
+    as @e[type=interaction, sort=nearest, tag=smolmen.bed.interaction, distance=..2] at @s function ~/match:
+        scoreboard players set #found smolmen.dummy 0
+        on target if entity @s[tag=smolmen.source] scoreboard players set #found smolmen.dummy 1
+
+        if score #found smolmen.dummy matches 1 function ~/../found:
+            
+            unless entity @e[type=#smolmen:hostile,distance=..8] if predicate smolmen:can_sleep:
+                ride @p[tag=smolmen.source] mount @e[type=armor_stand,tag=smolmen.bed.ride,limit=1,distance=..0.1]
+
+            spawnpoint @p[tag=smolmen.source] ~ ~ ~
+            tag @p[tag=smolmen.source] add smolmen.bed.spawn_point
+
+    tag @s remove smolmen.source
+
+
+function ~/place:
+    store result score #d smolmen.dummy attribute @s minecraft:player.block_interaction_range get 10
+    anchored eyes positioned ^ ^ ^0.1 function ~/cast:
+        scoreboard players remove #d smolmen.dummy 1   
+
+        unless block ^ ^ ^0.1 #smolmen:air return run align xyz positioned ~.5 ~ ~.5 unless entity @e[tag=smolmen.bed, distance=..0.1] function ~/../summon:
+            summon item_display ~ ~ ~ {
+                item: {
+                    id: 'minecraft:warped_fungus_on_a_stick',
+                    components: {
+                        "minecraft:custom_model_data": 1
+                    }
+                },
+                transformation: {
+                    translation: [0.0, 0.5, 0.0],
+                    left_rotation: [0, 0, 0, 1],
+                    right_rotation: [0, 0, 0, 1],
+                    scale: [1, 1, 1]
+                },
+                Tags: ["smolmen.bed", "smolmen.bed.part"],
+                Passengers: [
+                    {
+                        id: 'minecraft:interaction',
+                        height: 0.125,
+                        width: 0.5,
+                        Tags: ["smolmen.bed.interaction", "smolmen.bed.part"]
+                    },
+                    {
+                        id: 'minecraft:armor_stand',
+                        Invisible: 1b,
+                        Attributes: [{Base: Double(0.08), Name: "minecraft:generic.scale"}, {Base: Double(0), Name: "minecraft:generic.max_health"}],
+                        Tags: ["smolmen.bed.ride", "smolmen.bed.part"]
+                    }
+                ] 
+            }
+
+        if score #d smolmen.dummy matches 1.. positioned ^ ^ ^0.1 function ~/
+
+append function ~/tick:
+    unless predicate smolmen:can_sleep return run tp @s ~ ~1 ~
+    scoreboard players add #sleepingPlayers smolmen.dummy 1
+
+append function ~/reset_spawn:
+    say reset
+    spawnpoint @s 0 -65 0
+    tag @s remove smolmen.bed.spawn_point
+    $spreadplayers $(x) $(z) 0 10 false @s 
+    
+
+append function ./respawn:
+    if entity @s[tag=smolmen.bed.spawn_point] at @s unless entity @e[type=item_display,tag=smolmen.bed,distance=..0.25] function ./bed/reset_spawn with storage smolmen:const world_spawn
+
+append function ./wfoas:
+    raw execute if items entity @s weapon.mainhand warped_fungus_on_a_stick[custom_data~{smithed:{id:"smolmen:bed"}}] run function smolmen:bed/place {slot: "mainhand"}
+    raw execute unless items entity @s weapon.mainhand warped_fungus_on_a_stick if items entity @s weapon.offhand warped_fungus_on_a_stick[custom_data~{smithed:{id:"smolmen:bed"}}] run function smolmen:bed/place {slot: "offhand"}
+
+append function ./tick:
+    store result score #totalPlayers smolmen.dummy if entity @a
+    scoreboard players set #sleepingPlayers smolmen.dummy 0
+    as @a[predicate=smolmen:is_sleeping] at @s function ./bed/tick
+    store result score #sleepingPercentage smolmen.dummy gamerule playersSleepingPercentage
+
+    scoreboard players operation #sleepingPlayers smolmen.dummy *= #100 smolmen.const
+    scoreboard players operation #sleepingPlayers smolmen.dummy /= #totalPlayers smolmen.dummy    
+
+    if score #sleepingPercentage smolmen.dummy <= #sleepingPlayers smolmen.dummy time add 5s

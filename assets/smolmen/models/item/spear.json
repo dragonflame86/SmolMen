@@ -1,0 +1,6 @@
+{
+    "parent": "smolmen:item/handheld",
+    "textures": {
+        "layer0": "item/arrow"
+    }
+}

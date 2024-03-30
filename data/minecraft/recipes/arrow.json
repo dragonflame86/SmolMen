@@ -1,0 +1,52 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "equipment",
+    "key": {
+        "#": {
+            "item": "minecraft:stick"
+        },
+        "X": {
+            "item": "minecraft:flint"
+        },
+        "Y": {
+            "item": "minecraft:feather"
+        }
+    },
+    "pattern": [
+        "X",
+        "#",
+        "Y"
+    ],
+    "result": {
+        "count": 1,
+        "id": "minecraft:arrow",
+        "components": {
+            "minecraft:custom_model_data": 1,
+            "minecraft:item_name": "{\"translate\":\"item.smolmen.spear\"}",
+            "minecraft:attribute_modifiers": [
+                {
+                    "type": "minecraft:generic.attack_speed",
+                    "uuid": [-1953028026,-856931226,-1240793240,-1598231354],
+                    "name": "smolAttackSpeed",
+                    "amount": -2.1,
+                    "operation": "add_value",
+                    "slot": "mainhand"
+                },
+                {
+                    "type": "minecraft:generic.attack_damage",
+                    "uuid": [-1953028026,-856931226,-1240793240,-1598231354],
+                    "name": "smolAttack",
+                    "amount": 4,
+                    "operation": "add_value",
+                    "slot": "mainhand"
+                }
+            ],
+            "minecraft:max_stack_size": 1,
+            "minecraft:damage": 0,
+            "minecraft:max_damage": 128,
+            "minecraft:tool": {
+                "rules": []
+            }
+        }
+    }
+}

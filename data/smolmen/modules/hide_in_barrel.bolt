@@ -1,0 +1,66 @@
+
+
+predicate smolmen:technical/active_barrel {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+    "predicate": {
+        "slots": {
+            "weapon.mainhand": {
+                "items": "minecraft:barrel"
+            },
+            "weapon.offhand": {
+                "count": 0
+            }
+        },
+        "flags": {
+            "is_sneaking": true
+        }
+    }
+}
+
+function ~/spawn_barrel:
+    tag @s add smolmen.barrel_spawned
+    effect give @s invisibility infinite 0 true
+    effect give @s blindness infinite 0 true
+
+    playsound minecraft:item.armor.equip_generic master @a
+    
+    scoreboard players operation #id smolmen.dummy = @s smolmen.id
+
+    execute summon item_display function ~/set_data:
+        data merge entity @s {
+            item: {
+                id: "minecraft:barrel",
+                components: {
+                    "minecraft:custom_model_data": 1
+                }
+            }, 
+            transformation: {
+               left_rotation: [0,0,0,1],
+               right_rotation: [0,0,0,1],
+               scale: [0.75, 0.75, 0.75],
+               translation: [0, 0, 0] 
+            },
+            teleport_duration: 1,
+            Tags: ["smolmen.barrel"]
+        }
+
+        scoreboard players operation @s smolmen.id = #id smolmen.dummy 
+
+function ~/despawn_barrel:
+    tag @s remove smolmen.barrel_spawned
+    effect clear @s invisibility 
+    effect clear @s blindness 
+
+function ~/teleport_barrel:
+    store result storage smolmen:temp barrel.id int 1 scoreboard players get @s smolmen.id
+    execute function ~/with_player with storage smolmen:temp barrel:
+        $execute at @a[limit=1,scores={smolmen.id=$(id)}] run tp @s ~ ~0.375 ~ ~ 0
+        $execute unless entity @p[scores={smolmen.id=$(id)},tag=smolmen.barrel_spawned] run kill @s 
+
+
+append function ./tick:
+    as @a[predicate=smolmen:technical/active_barrel,tag=!smolmen.barrel_spawned] at @s function ./hide_in_barrel/spawn_barrel
+    as @a[predicate=!smolmen:technical/active_barrel,tag=smolmen.barrel_spawned] at @s function ./hide_in_barrel/despawn_barrel
+
+    as @e[type=item_display,tag=smolmen.barrel] function ./hide_in_barrel/teleport_barrel

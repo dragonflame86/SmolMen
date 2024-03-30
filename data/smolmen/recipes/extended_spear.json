@@ -1,0 +1,57 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "equipment",
+    "key": {
+        "#": {
+            "item": "minecraft:stick"
+        },
+        "X": {
+            "item": "minecraft:arrow"
+        }
+    },
+    "pattern": [
+        "X",
+        "#",
+        "#"
+    ],
+    "result": {
+        "count": 1,
+        "id": "minecraft:arrow",
+        "components": {
+            "minecraft:custom_model_data": 2,
+            "minecraft:item_name": "{\"translate\":\"item.smolmen.extended_spear\"}",
+            "minecraft:attribute_modifiers": [
+                {
+                    "type": "minecraft:generic.attack_speed",
+                    "uuid": [-1953028026,-856931226,-1240793240,-159823154],
+                    "name": "smolAttackSpeed",
+                    "amount": -2.5,
+                    "operation": "add_value",
+                    "slot": "mainhand"
+                },
+                {
+                    "type": "minecraft:generic.attack_damage",
+                    "uuid": [-1953028026,-856931226,-1240793240,-159821354],
+                    "name": "smolAttack",
+                    "amount": 4,
+                    "operation": "add_value",
+                    "slot": "mainhand"
+                },
+                {
+                    "type": "minecraft:player.entity_interaction_range",
+                    "uuid": [-1953028026,-856931226,-1598231354,-124073240],
+                    "name": "smolReach",
+                    "amount": 1,
+                    "operation": "add_value",
+                    "slot": "mainhand"
+                }
+            ],
+            "minecraft:max_stack_size": 1,
+            "minecraft:damage": 0,
+            "minecraft:max_damage": 128,
+            "minecraft:tool": {
+                "rules": []
+            }
+        }
+    }
+}

@@ -1,0 +1,57 @@
+## This module is responsible for handling item stacks with a size greater than 16
+
+advancement smolmen:technical/picked_up_64 {
+    "criteria": {
+        "requirement": {
+        "trigger": "minecraft:inventory_changed",
+        "conditions": {
+            "items": [
+                    {
+                        "components": {
+                            "minecraft:max_stack_size": 64
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "rewards": {
+        "function": "smolmen:stack_size/trigger"
+    }
+}
+
+function ~/trigger:
+    advancement revoke @s only smolmen:technical/picked_up_64
+
+    for i in range(36):
+        raw (f"execute if items entity @s container.{i} *[minecraft:max_stack_size=64] run function smolmen:stack_size/update_stack_size {{i: {i}}}") 
+
+function ~/update_stack_size:
+    $data modify storage smolmen:temp item set from entity @s Inventory[{Slot: $(i)b}]
+
+    execute store result score #count smolmen.dummy data get storage smolmen:temp item.count
+    data modify storage smolmen:temp item.components merge value {"minecraft:max_stack_size": 16}
+
+    $item modify entity @s container.$(i) [{"function": "set_components", "components": {"minecraft:max_stack_size": 16}}]
+
+    $execute if score #count smolmen.dummy matches 17.. run function smolmen:stack_size/handle_overage {i: $(i)}
+    function ./stack_size/handle_overage:
+      $item modify entity @s container.$(i) {"function": "set_count", "count": 16}
+      scoreboard players remove #count smolmen.dummy 16
+      execute function ./stack_size/return_item with storage smolmen:temp item:
+        if score #count smolmen.dummy matches 1..15 function ~/less_16:
+            store result storage smolmen:temp item.count int 1 scoreboard players get #count smolmen.dummy
+            execute function ./return_item_with_count with storage smolmen:temp item:
+              $summon item ~ ~ ~ {Item:{id: "$(id)", components: $(components), count: $(count)}} 
+
+        if score #count smolmen.dummy matches 16.. function ~/gte_16 with storage smolmen:temp item:
+            scoreboard players remove #count smolmen.dummy 16
+
+            $summon item ~ ~ ~ {Item:{id: "$(id)", components: $(components), count: 16}} 
+            function ./stack_size/return_item with storage smolmen:temp item
+            
+function ~/update_ground_item:
+    raw item modify entity @s contents {"function": "set_components", "components": {"max_stack_size": 16}}           
+
+append function ./check_items:
+    raw execute if items entity @s contents *[max_stack_size=64] run function ./stack_size/update_ground_item

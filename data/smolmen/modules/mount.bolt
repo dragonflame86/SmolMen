@@ -1,0 +1,105 @@
+entity_type_tag smolmen:water_mounts {
+    "replace" : false,
+    "values" : [
+        "minecraft:salmon",
+        "minecraft:cod"
+    ]
+}
+entity_type_tag smolmen:air_mounts {
+    "replace" : false,
+    "values" : [
+    ]
+}
+
+function ./mounts/water_control:
+
+    scoreboard players operation smolmen.speed_multiplier smolmen.dummy = smolmen.salmon_speed smolmen.dummy
+    on passengers store result score smolmen.motionY smolmen.dummy data get entity @s Rotation[1] -0.05
+
+    execute store result entity @s Motion[1] double 0.1 run scoreboard players get smolmen.motionY smolmen.dummy
+    if predicate smolmen:in_water function smolmen:mounts/mount_standard_tick
+
+function ./mounts/air_control:
+    say bye
+
+
+function ./mounts/mount_tick:
+    ## Ticks mount movement code
+    if entity @s[type=#smolmen:water_mounts] function smolmen:mounts/water_control
+    if entity @s[type=#smolmen:air_mounts] function smolmen:mounts/air_control
+
+    if entity @s[type=!#smolmen:air_mount,type=!#smolmen:water_mount]:
+        if predicate smolmen:in_water scoreboard players operation smolmen.speed_multiplier smolmen.dummy = smolmen.water_speed smolmen.dummy
+        function smolmen:mounts/mount_standard_tick
+        
+
+function ./mounts/mount_standard_tick:
+    ## Ticks mount movement code
+
+    data modify entity @s Rotation set from entity @p Rotation
+
+    store result score smolmen.motionX smolmen.dummy on passengers data get entity @s Motion[0] 1000
+    store result score smolmen.motionZ smolmen.dummy on passengers data get entity @s Motion[2] 1000
+
+    scoreboard players operation smolmen.motionX smolmen.dummy *= smolmen.speed_multiplier smolmen.dummy
+    scoreboard players operation smolmen.motionZ smolmen.dummy *= smolmen.speed_multiplier smolmen.dummy
+
+    execute store result entity @s Motion[0] double 0.01 run scoreboard players get smolmen.motionX smolmen.dummy
+    execute store result entity @s Motion[2] double 0.01 run scoreboard players get smolmen.motionZ smolmen.dummy
+
+    scoreboard players operation smolmen.speed_multiplier smolmen.dummy = smolmen.land_speed smolmen.dummy
+
+def register_mountable(type, food):
+    advancement f"smolmen:technical/feed/{type}" {
+        "criteria": {
+            "requirement": {
+                "trigger": "minecraft:player_interacted_with_entity",
+                "conditions": {
+                    "player": [
+                        {
+                            "condition": "minecraft:entity_properties",
+                            "entity": "this",
+                            "predicate": {
+                                "flags": {
+                                    "is_sneaking": false
+                                }
+                            }
+                        }
+                    ],
+                    "item": {
+                        "items": food
+                    },
+                    "entity": [
+                        {
+                            "condition": "minecraft:entity_properties",
+                            "entity": "this",
+                            "predicate": {
+                                "type": f"minecraft:{food}"
+                            }
+                        }
+                    ]
+                }
+            }
+        },
+        "rewards": {
+           "function": f"smolmen:mounts/{type}/mount_up"
+        }
+    }
+
+    append function f"smolmen:mounts/{type}/mount_up":
+        ride @s mount @e[type=type,nbt=!{InLove:0},sort=nearest,limit=1,distance=..3, tag=!smolmen.vehicle]
+        execute as @e[type=type,nbt=!{InLove:0},sort=nearest,limit=1,distance=..3, tag=!smolmen.vehicle] at @s run function smolmen:mounts/prepare_mount
+
+        advancement revoke @s only f"smolmen:technical/feed/{type}"
+
+
+## register mountable animals
+register_mountable("chicken", [
+    "minecraft:wheat_seeds",
+    "minecraft:torchflower_seeds",
+    "minecraft:pumpkin_seeds",
+    "minecraft:melon_seeds",
+    "minecraft:beetroot_seeds"
+])
+
+register_mountable("armadillo","minecraft:spider_eye")
