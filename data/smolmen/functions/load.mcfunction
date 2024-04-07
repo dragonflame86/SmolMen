@@ -3,24 +3,23 @@
 schedule function smolmen:mounts/mount_cleanup 10s replace
 
 scoreboard objectives add smolmen.death deathCount
+scoreboard objectives add smolmen.leave minecraft.custom:minecraft.leave_game
 scoreboard objectives add smolmen.dummy dummy
 scoreboard objectives add smolmen.const dummy
 
+scoreboard objectives add smolmen.team trigger
 scoreboard objectives add smolmen.id dummy
 
-## Ground mounts
-scoreboard players set smolmen.water_speed smolmen.dummy 8
-scoreboard players set smolmen.land_speed smolmen.dummy 18
-
-## Air and water controls
-scoreboard players set smolmen.water_ascension smolmen.dummy 2
-scoreboard players set smolmen.air_ascension smolmen.dummy 2
-
-scoreboard players set smolmen.salmon_speed smolmen.dummy 2
-
-scoreboard players set smolmen.speed_multiplier smolmen.dummy 18
-
 scoreboard objectives add smolmen.wfoas minecraft.used:minecraft.warped_fungus_on_a_stick
+
+team add red {"text": "Red", "color": "red"}
+team modify red color red
+team modify red nametagVisibility always
+
+team add blue {"text": "Blue", "color": "blue"}
+team modify blue color blue
+team modify blue nametagVisibility always
+
 
 for i in range(2, 10, 1):
     scoreboard players set f"#{i}" smolmen.const i

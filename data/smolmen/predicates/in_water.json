@@ -5,7 +5,7 @@
       "location": {},
       "stepping_on": {
         "fluid": {
-          "tag": "minecraft:water"
+          "fluids": ["minecraft:water"]
         }
       }
     }

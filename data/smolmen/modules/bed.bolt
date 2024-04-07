@@ -1,5 +1,28 @@
 from nbtlib import Double
 
+advancement smolmen:technical/interact_bed {
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:default_block_use",
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "blocks": "#minecraft:beds"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "function": "smolmen:bed/reject"
+  }
+}
+
 advancement smolmen:technical/interact_smol_bed {
   "criteria": {
     "requirement": {
@@ -33,21 +56,45 @@ predicate smolmen:is_sleeping {
   }
 }
 
+function ~/reject:
+    advancement revoke @s only smolmen:technical/interact_bed
+    if block ~ ~ ~ #beds tp @s ~ ~ ~
 
 function ~/interact:
     advancement revoke @s only smolmen:technical/interact_smol_bed
     tag @s add smolmen.source
     
-    as @e[type=interaction, sort=nearest, tag=smolmen.bed.interaction, distance=..2] at @s function ~/match:
+    as @e[type=interaction, sort=nearest, tag=smolmen.bed.interaction, distance=..2, limit=1] at @s function ~/match:
         scoreboard players set #found smolmen.dummy 0
         on target if entity @s[tag=smolmen.source] scoreboard players set #found smolmen.dummy 1
 
         if score #found smolmen.dummy matches 1 function ~/../found:
             
-            unless entity @e[type=#smolmen:hostile,distance=..8] if predicate smolmen:can_sleep:
-                ride @p[tag=smolmen.source] mount @e[type=armor_stand,tag=smolmen.bed.ride,limit=1,distance=..0.1]
+            execute function ~/ride:
+                unless predicate smolmen:can_sleep return run title @p[tag=smolmen.source] actionbar {"translate": "block.minecraft.bed.no_sleep"} 
+                if entity @e[type=#smolmen:hostile,distance=..8] return run title @p[tag=smolmen.source] actionbar {"translate": "block.minecraft.bed.not_safe"}
+                on vehicle on passengers on passengers if entity @s[type=player] return run title @p[tag=smolmen.source] actionbar {"translate": "block.minecraft.bed.occupied"}
 
+                unless entity @e[type=#smolmen:hostile,distance=..8] if predicate smolmen:can_sleep:
+                    ride @p[tag=smolmen.source] mount @e[type=armor_stand,tag=smolmen.bed.ride,limit=1,distance=..0.1]
+
+
+            store result score #x smolmen.dummy data get entity @p[tag=smolmen.source] SpawnX
+            store result score #y smolmen.dummy data get entity @p[tag=smolmen.source] SpawnY
+            store result score #z smolmen.dummy data get entity @p[tag=smolmen.source] SpawnZ
+
+            store result score #px smolmen.dummy data get entity @s Pos[0]
+            store result score #py smolmen.dummy data get entity @s Pos[1]
+            store result score #pz smolmen.dummy data get entity @s Pos[2]
+
+            if score #x smolmen.dummy = #px smolmen.dummy:
+                if score #y smolmen.dummy = #py smolmen.dummy:
+                    if score #z smolmen.dummy = #pz smolmen.dummy:
+                        return 0
+                        
+            tellraw @p[tag=smolmen.source] {"translate": "block.minecraft.set_spawn"}
             spawnpoint @p[tag=smolmen.source] ~ ~ ~
+
             tag @p[tag=smolmen.source] add smolmen.bed.spawn_point
 
     tag @s remove smolmen.source
@@ -115,7 +162,17 @@ append function ./tick:
     as @a[predicate=smolmen:is_sleeping] at @s function ./bed/tick
     store result score #sleepingPercentage smolmen.dummy gamerule playersSleepingPercentage
 
-    scoreboard players operation #sleepingPlayers smolmen.dummy *= #100 smolmen.const
-    scoreboard players operation #sleepingPlayers smolmen.dummy /= #totalPlayers smolmen.dummy    
+    scoreboard players operation #requiredPlayers smolmen.dummy = #totalPlayers smolmen.dummy
+    scoreboard players operation #requiredPlayers smolmen.dummy *= #sleepingPercentage smolmen.dummy    
+    scoreboard players operation #requiredPlayers smolmen.dummy /= #100 smolmen.const
+    scoreboard players add #requiredPlayers smolmen.dummy 1
 
-    if score #sleepingPercentage smolmen.dummy <= #sleepingPlayers smolmen.dummy time add 5s
+    if score #sleepingPlayers smolmen.dummy matches 1.. unless score #totalPlayers smolmen.dummy matches 1 title @a actionbar {
+        "translate": "sleep.players_sleeping", 
+        "with": [
+            {"score": {"objective": "smolmen.dummy", "name": "#sleepingPlayers"}},
+            {"score": {"objective": "smolmen.dummy", "name": "#requiredPlayers"}}
+        ]
+    }
+    
+    if score #sleepingPlayers smolmen.dummy >= #requiredPlayers smolmen.dummy time add 5s

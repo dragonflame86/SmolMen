@@ -11,6 +11,33 @@ entity_type_tag smolmen:air_mounts {
     ]
 }
 
+predicate ~/armadillo {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+    "predicate": {
+        "vehicle": {
+            "type": "minecraft:armadillo"
+        }
+    }
+}
+
+append function ./tick:
+    effect give @a[predicate=smolmen:mount/armadillo] resistance 1 0 true
+append function ./load:
+    ## Ground mounts
+    scoreboard players set smolmen.water_speed smolmen.dummy 1
+    scoreboard players set smolmen.land_speed smolmen.dummy 2
+
+    ## Air and water controls
+    scoreboard players set smolmen.water_ascension smolmen.dummy 2
+    scoreboard players set smolmen.air_ascension smolmen.dummy 2
+
+    scoreboard players set smolmen.salmon_speed smolmen.dummy 2
+
+    scoreboard players set smolmen.speed_multiplier smolmen.dummy 18
+
+
+
 function ./mounts/water_control:
 
     scoreboard players operation smolmen.speed_multiplier smolmen.dummy = smolmen.salmon_speed smolmen.dummy
@@ -74,7 +101,7 @@ def register_mountable(type, food):
                             "condition": "minecraft:entity_properties",
                             "entity": "this",
                             "predicate": {
-                                "type": f"minecraft:{food}"
+                                "type": f"minecraft:{type}"
                             }
                         }
                     ]

@@ -1,0 +1,99 @@
+
+
+append function ./tick:
+    as @a[team=!red,team=!blue] function ./team/choose
+
+    unless data storage smolmen:const leaders.red as @r[team=red] function ./team/pick_red_leader
+    unless data storage smolmen:const leaders.blue as @r[team=blue] function ./team/pick_blue_leader
+
+    if data storage smolmen:const leaders.red if entity @a[limit=1, team=red] function ./team/check_red_leader with storage smolmen:const leaders
+    if data storage smolmen:const leaders.blue if entity @a[limit=1, team=blue] function ./team/check_blue_leader with storage smolmen:const leaders
+
+def pick_leader(team: str):
+    tag @a[team=team] remove smolmen.leader
+    data modify storage smolmen:const (f"leaders.{team}") set from entity @s UUID
+    tag @s add smolmen.leader
+    tellraw @a ["", {"selector": "@s"}, " is now the leader of the ", {"text": (team[0].upper() + team[1:]), "color": team}, " team"]
+
+    attribute @s minecraft:generic.max_health base set 10
+
+    attribute @s minecraft:generic.scale base set 0.54
+
+    raw attribute @s minecraft:generic.attack_damage modifier add 1234-0-0-0-1 "smolDamage" -0.33 add_multiplied_total
+    
+    pattern = [
+        {color: "yellow", pattern: "minecraft:creeper"}, 
+        {color: "yellow", pattern: "minecraft:skull"}, 
+        {color: team, pattern: "minecraft:piglin"}, 
+        {color: team, pattern: "minecraft:stripe_bottom"}, 
+        {color: team, pattern: "minecraft:half_horizontal"}, 
+        {color: team, pattern: "minecraft:stripe_bottom"}
+    ] 
+
+    command = f'item replace entity @s armor.head with {team}_banner[minecraft:custom_data={{leader:1b}},minecraft:enchantment_glint_override=false,minecraft:enchantments={{"minecraft:binding_curse":1}},minecraft:banner_patterns={pattern},minecraft:hide_additional_tooltip={{}}]'
+    raw command
+
+function ~/pick_red_leader:
+    pick_leader("red")
+
+function ~/pick_blue_leader:
+    pick_leader("blue")
+
+function ~/check_red_leader:
+    $execute unless entity @a[nbt={UUID: $(red)},limit=1] as @r[team=red] run function smolmen:team/pick_red_leader
+
+function ~/check_blue_leader:
+    $execute unless entity @a[nbt={UUID: $(blue)},limit=1] as @e[team=blue] run function smolmen:team/pick_blue_leader
+
+append function ./respawn:
+    if entity @s[tag=smolmen.leader,team=red] as @r[team=red] function ./team/pick_red_leader 
+    if entity @s[tag=smolmen.leader,team=blue] as @r[team=blue] function ./team/pick_blue_leader
+
+function ~/choose:
+    if score @s smolmen.team matches 1 function ~/join_red:
+        team join red
+        tellraw @a ["", {"selector": "@s"},{"text": " has joined the "}, {"text": "Red", "color": "red"}, {"text": " team"}]
+    if score @s smolmen.team matches 2 function ~/joined_blue:
+        team join blue
+        tellraw @a ["", {"selector": "@s"},{"text": " has joined the "}, {"text": "Blue", "color": "blue"}, {"text": " team"}]
+    if score @s smolmen.team matches 1.. return run function ~/reset:
+        effect clear @s
+        raw attribute @s minecraft:generic.movement_speed modifier remove 5-1-0-0-1 
+        raw attribute @s minecraft:generic.jump_strength modifier remove 5-1-0-0-2 
+        scoreboard players reset @s smolmen.team
+
+
+
+    scoreboard players enable @s smolmen.team
+
+    effect give @s blindness 5 0 true
+    effect give @s resistance 1 4 true
+
+    raw attribute @s minecraft:generic.movement_speed modifier add 5-1-0-0-1 no_move -1 add_multiplied_total 
+    raw attribute @s minecraft:generic.jump_strength modifier add 5-1-0-0-2 no_jump -1 add_multiplied_total 
+    
+    title @s times 0 5 0
+    title @s title {"text":"Pick a team"}
+    title @s subtitle ["",{"text":"Red","color":"red"},{"text":" or "},{"text": "Blue","color":"blue"}]
+
+    tellraw @s [
+        ("\n" * 24),
+        {"text": ("┏" + "-" * 25 + "\n"), "color": "gray"},
+        {"text": "| ", "color": "gray"}, 
+        [
+            {"text":"Click to join the ","color":"white","clickEvent":{"action":"run_command","value":"/trigger smolmen.team set 1"}},
+            {"text":"Red","color":"red","bold":true},
+            {"text":" team\n"}
+        ],
+        {"text": ("|" + "-" * 25 + "\n"), "color": "gray"},
+        {"text": "| ", "color": "gray"}, 
+        [
+            {"text":"Click to join the ","color":"white","clickEvent":{"action":"run_command","value":"/trigger smolmen.team set 2"}},
+            {"text":"Blue","color":"blue","bold":true},
+            {"text":" team\n"}
+        ],
+        {"text": ("┗" + "-" * 25), "color": "gray"},
+    ]
+
+append function ./check_items:
+    raw execute if items entity @s contents #banners[custom_data={leader:1b}] run kill @s
