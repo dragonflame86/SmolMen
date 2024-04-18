@@ -3,6 +3,9 @@
 append function ./tick:
     as @a[team=!red,team=!blue] function ./team/choose
 
+    as @a[team=red,scores={smolmen.leave=1..}] function ./team/red_relog with storage smolmen:const leaders
+    as @a[team=blue,scores={smolmen.leave=1..}] function ./team/blue_relog with storage smolmen:const leaders
+
     unless data storage smolmen:const leaders.red as @r[team=red] function ./team/pick_red_leader
     unless data storage smolmen:const leaders.blue as @r[team=blue] function ./team/pick_blue_leader
 
@@ -10,7 +13,7 @@ append function ./tick:
     if data storage smolmen:const leaders.blue if entity @a[limit=1, team=blue] function ./team/check_blue_leader with storage smolmen:const leaders
 
 def pick_leader(team: str):
-    tag @a[team=team] remove smolmen.leader
+    as @a[team=team,tag=smolmen.leader] function ~/../reset
     data modify storage smolmen:const (f"leaders.{team}") set from entity @s UUID
     tag @s add smolmen.leader
     tellraw @a ["", {"selector": "@s"}, " is now the leader of the ", {"text": (team[0].upper() + team[1:]), "color": team}, " team"]
@@ -30,8 +33,9 @@ def pick_leader(team: str):
         {color: team, pattern: "minecraft:stripe_bottom"}
     ] 
 
-    command = f'item replace entity @s armor.head with {team}_banner[minecraft:custom_data={{leader:1b}},minecraft:enchantment_glint_override=false,minecraft:enchantments={{"minecraft:binding_curse":1}},minecraft:banner_patterns={pattern},minecraft:hide_additional_tooltip={{}}]'
-    raw command
+    
+
+    raw f'item replace entity @s armor.head with {team}_banner[minecraft:custom_data={{leader:1b}},minecraft:enchantment_glint_override=false,minecraft:enchantments={{"minecraft:binding_curse":1}},minecraft:banner_patterns={pattern},minecraft:hide_additional_tooltip={{}}]'
 
 function ~/pick_red_leader:
     pick_leader("red")
@@ -45,6 +49,19 @@ function ~/check_red_leader:
 function ~/check_blue_leader:
     $execute unless entity @a[nbt={UUID: $(blue)},limit=1] as @e[team=blue] run function smolmen:team/pick_blue_leader
 
+function ~/reset:
+    tag @s remove smolmen.leader
+    function ./respawn
+    item replace entity @s armor.head with air
+
+function ~/red_relog:
+    scoreboard players reset @s smolmen.leave
+    $execute if entity @s[tag=smolmen.leader,nbt=!{UUID: $(red)}] run function smolmen:team/reset 
+
+function ~/blue_relog:
+    scoreboard players reset @s smolmen.leave
+    $execute if entity @s[tag=smolmen.leader,nbt=!{UUID: $(blue)}] run function smolmen:team/reset 
+
 append function ./respawn:
     if entity @s[tag=smolmen.leader,team=red] as @r[team=red] function ./team/pick_red_leader 
     if entity @s[tag=smolmen.leader,team=blue] as @r[team=blue] function ./team/pick_blue_leader
@@ -53,9 +70,15 @@ function ~/choose:
     if score @s smolmen.team matches 1 function ~/join_red:
         team join red
         tellraw @a ["", {"selector": "@s"},{"text": " has joined the "}, {"text": "Red", "color": "red"}, {"text": " team"}]
+        tp @s @e[tag=smolmen.red_base,limit=1]
+        at @s spawnpoint @s ~ ~ ~
+    
     if score @s smolmen.team matches 2 function ~/joined_blue:
         team join blue
         tellraw @a ["", {"selector": "@s"},{"text": " has joined the "}, {"text": "Blue", "color": "blue"}, {"text": " team"}]
+        tp @s @e[tag=smolmen.blue_base,limit=1]
+        at @s spawnpoint @s ~ ~ ~
+
     if score @s smolmen.team matches 1.. return run function ~/reset:
         effect clear @s
         raw attribute @s minecraft:generic.movement_speed modifier remove 5-1-0-0-1 

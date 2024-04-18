@@ -101,11 +101,14 @@ function ~/interact:
 
 
 function ~/place:
+    $data modify storage smolmen:temp slot set value "$(slot)"
     store result score #d smolmen.dummy attribute @s minecraft:player.block_interaction_range get 10
     anchored eyes positioned ^ ^ ^0.1 function ~/cast:
         scoreboard players remove #d smolmen.dummy 1   
 
-        unless block ^ ^ ^0.1 #smolmen:air return run align xyz positioned ~.5 ~ ~.5 unless entity @e[tag=smolmen.bed, distance=..0.1] function ~/../summon:
+        unless block ^ ^ ^0.1 #smolmen:air return run align xyz positioned ~.5 ~ ~.5 unless entity @e[tag=smolmen.bed, distance=..0.1] function ~/../summon with storage smolmen:temp {}:
+            $item replace entity @s[gamemode=!creative] weapon.$(slot) with air
+            playsound minecraft:block.wood.place block @a 
             summon item_display ~ ~ ~ {
                 item: {
                     id: 'minecraft:warped_fungus_on_a_stick',
@@ -143,10 +146,13 @@ append function ~/tick:
     scoreboard players add #sleepingPlayers smolmen.dummy 1
 
 append function ~/reset_spawn:
-    say reset
-    spawnpoint @s 0 -65 0
+    tellraw @s {"translate": "block.minecraft.spawn.not_valid"}
+    if entity @s[team=red] at @e[tag=smolmen.red_base] function ~/go_to_base
+    if entity @s[team=blue] at @e[tag=smolmen.blue_base] function ~/go_to_base:
+        tp @s ~ ~ ~ 0 0
+        spawnpoint @s ~ ~ ~
+
     tag @s remove smolmen.bed.spawn_point
-    $spreadplayers $(x) $(z) 0 10 false @s 
     
 
 append function ./respawn:
@@ -156,10 +162,32 @@ append function ./wfoas:
     raw execute if items entity @s weapon.mainhand warped_fungus_on_a_stick[custom_data~{smithed:{id:"smolmen:bed"}}] run function smolmen:bed/place {slot: "mainhand"}
     raw execute unless items entity @s weapon.mainhand warped_fungus_on_a_stick if items entity @s weapon.offhand warped_fungus_on_a_stick[custom_data~{smithed:{id:"smolmen:bed"}}] run function smolmen:bed/place {slot: "offhand"}
 
+append function ~/break:
+    on passengers unless entity @s[type=player] kill @s
+    kill @s
+    playsound minecraft:block.wood.break block @a
+    summon item ~ ~ ~ {
+        Item: {
+            id: "minecraft:warped_fungus_on_a_stick",
+            count: 1,
+            components: {
+                "minecraft:custom_model_data": 1,
+                "minecraft:item_name": "{\"translate\":\"item.smolmen.bed\"}",
+                "minecraft:max_stack_size": 1,
+                "minecraft:custom_data": {
+                    smithed: {
+                        id: "smolmen:bed"
+                    }
+                }
+            }
+        },
+        Motion: [0.0, 0.1, 0.0]
+    }
 append function ./tick:
     store result score #totalPlayers smolmen.dummy if entity @a
     scoreboard players set #sleepingPlayers smolmen.dummy 0
     as @a[predicate=smolmen:is_sleeping] at @s function ./bed/tick
+    as @e[type=item_display,tag=smolmen.bed] at @s if block ~ ~-1 ~ #smolmen:air function ./bed/break
     store result score #sleepingPercentage smolmen.dummy gamerule playersSleepingPercentage
 
     scoreboard players operation #requiredPlayers smolmen.dummy = #totalPlayers smolmen.dummy

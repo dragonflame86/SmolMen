@@ -22,9 +22,11 @@ advancement smolmen:technical/picked_up_64 {
 
 function ~/trigger:
     advancement revoke @s only smolmen:technical/picked_up_64
-
-    for i in range(36):
-        raw (f"execute if items entity @s container.{i} *[minecraft:max_stack_size=64] run function smolmen:stack_size/update_stack_size {{i: {i}}}") 
+    
+    slots = 36
+    memo slots:
+        for i in range(slots):
+            raw (f"execute if items entity @s container.{i} *[minecraft:max_stack_size=64] run function smolmen:stack_size/update_stack_size {{i: {i}}}") 
 
 function ~/update_stack_size:
     $data modify storage smolmen:temp item set from entity @s Inventory[{Slot: $(i)b}]
@@ -51,7 +53,7 @@ function ~/update_stack_size:
             function ./stack_size/return_item with storage smolmen:temp item
             
 function ~/update_ground_item:
-    raw item modify entity @s contents {"function": "set_components", "components": {"max_stack_size": 16}}           
+    raw item modify entity @s contents {"function": "set_components", "components": {"max_stack_size": 16}}       
 
 append function ./check_items:
-    raw execute if items entity @s contents *[max_stack_size=64] run function ./stack_size/update_ground_item
+    raw execute if items entity @s contents *[minecraft:max_stack_size=64] run function smolmen:stack_size/update_ground_item

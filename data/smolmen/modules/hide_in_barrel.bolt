@@ -21,7 +21,6 @@ predicate smolmen:technical/active_barrel {
 function ~/spawn_barrel:
     tag @s add smolmen.barrel_spawned
     effect give @s invisibility infinite 0 true
-    effect give @s blindness infinite 0 true
 
     playsound minecraft:item.armor.equip_generic master @a
     
@@ -50,7 +49,7 @@ function ~/spawn_barrel:
 function ~/despawn_barrel:
     tag @s remove smolmen.barrel_spawned
     effect clear @s invisibility 
-    effect clear @s blindness 
+ 
 
 function ~/teleport_barrel:
     store result storage smolmen:temp barrel.id int 1 scoreboard players get @s smolmen.id

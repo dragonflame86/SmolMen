@@ -1,0 +1,27 @@
+
+function ~/throw:
+    $item modify entity @s[gamemode=!creative] weapon.$(slot) smolmen:reduce_count
+
+    positioned 0.0 0.0 0.0 positioned ^ ^ ^4 summon marker function ~/get_motion:
+        data modify storage smolmen:temp motion set from entity @s Pos
+        kill @s
+
+    anchored eyes positioned ^ ^ ^ function ~/../summon_projectile with storage smolmen:temp {}:
+        $summon armor_stand ~ ~ ~ {Motion: $(motion), Invisible: 1b, Tags:["smolmen.flare"], Small:1b, Attributes: [{Name: "minecraft:generic.scale", Base: 0.01d}]}
+
+function ~/tick:
+    scoreboard players add @s smolmen.dummy 1
+    fill ~5 ~5 ~5 ~-5 ~-5 ~-5 air replace light[waterlogged=false]
+    fill ~5 ~5 ~5 ~-5 ~-5 ~-5 water replace light[waterlogged=true]
+
+    if score @s smolmen.dummy matches 200.. return run kill @s
+    if block ~ ~ ~ #smolmen:air setblock ~ ~ ~ light[level=15]
+    if block ~ ~ ~ water setblock ~ ~ ~ light[waterlogged=true,level=15]
+    particle minecraft:flame ~ ~ ~ 0.1 0.1 0.1 0 5
+
+append function ./tick:
+    as @e[type=armor_stand, tag=smolmen.flare] at @s function ./flare/tick
+
+append function ./wfoas:
+    raw execute if items entity @s weapon.mainhand warped_fungus_on_a_stick[custom_data~{smithed:{id:"smolmen:flare"}}] run function smolmen:flare/throw {slot: "mainhand"}
+    raw execute unless items entity @s weapon.mainhand warped_fungus_on_a_stick if items entity @s weapon.offhand warped_fungus_on_a_stick[custom_data~{smithed:{id:"smolmen:flare"}}] run function smolmen:flare/throw {slot: "offhand"}

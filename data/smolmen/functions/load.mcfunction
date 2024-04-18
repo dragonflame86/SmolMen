@@ -14,11 +14,11 @@ scoreboard objectives add smolmen.wfoas minecraft.used:minecraft.warped_fungus_o
 
 team add red {"text": "Red", "color": "red"}
 team modify red color red
-team modify red nametagVisibility always
+team modify red nametagVisibility hideForOtherTeams
 
 team add blue {"text": "Blue", "color": "blue"}
 team modify blue color blue
-team modify blue nametagVisibility always
+team modify blue nametagVisibility hideForOtherTeams
 
 
 for i in range(2, 10, 1):
@@ -39,3 +39,5 @@ execute summon marker function ~/get_world_spawn:
     kill @s
 
 tellraw @a [{"text":"[Smol Men] ", "bold": true, "color": "gold"},{"text":"loaded.", "bold": false, "color": "white"}]
+
+gamerule reducedDebugInfo true

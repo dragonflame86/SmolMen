@@ -63,9 +63,11 @@ predicate smolmen:technical/holding_tool {
 
 function ~/trigger:
     advancement revoke @s only smolmen:technical/picked_up_tool
-
-    for i in range(36):
-        raw (f"execute if items entity @s container.{i} #tools run item modify entity @s container.{i} smolmen:technical/enlarge_tool") 
+    
+    slots = 36
+    memo slots:
+      for i in range(slots):
+          raw (f"execute if items entity @s container.{i} #tools run item modify entity @s container.{i} smolmen:technical/enlarge_tool") 
 
 
 function ~/reset_item:
