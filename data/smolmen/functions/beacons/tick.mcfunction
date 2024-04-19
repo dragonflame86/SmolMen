@@ -26,12 +26,14 @@ execute if entity @s[tag=smolmen.regenerating] run function smolmen:beacons/rege
 execute if entity @s[tag=smolmen.invulnerable] run function smolmen:beacons/invulnerable
 
 # protection
-execute if entity @s[tag=smolmen.red_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 0..1 positioned ~-20 -64 ~-20 run tag @a[team=blue,dx=40,dz=40,dy=400] add smolmen.restricted
+execute if entity @s[tag=smolmen.red_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 0 positioned ~-15 -64 ~-15 run tag @a[team=blue,dx=30,dz=30,dy=400] add smolmen.restricted
+execute if entity @s[tag=smolmen.red_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 1 positioned ~-20 -64 ~-20 run tag @a[team=blue,dx=40,dz=40,dy=400] add smolmen.restricted
 execute if entity @s[tag=smolmen.red_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 2 positioned ~-30 -64 ~-30 run tag @a[team=blue,dx=60,dz=60,dy=400] add smolmen.restricted
 execute if entity @s[tag=smolmen.red_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 3 positioned ~-40 -64 ~-40 run tag @a[team=blue,dx=80,dz=80,dy=400] add smolmen.restricted
 execute if entity @s[tag=smolmen.red_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 4 positioned ~-50 -64 ~-50 run tag @a[team=blue,dx=100,dz=100,dy=400] add smolmen.restricted
 
-execute if entity @s[tag=smolmen.blue_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 0..1 positioned ~-20 -64 ~-20 run tag @a[team=red,dx=40,dz=40,dy=400] add smolmen.restricted
+execute if entity @s[tag=smolmen.blue_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 0 positioned ~-15 -64 ~-15 tag @a[team=red,dx=30,dz=30,dy=400] add smolmen.restricted
+execute if entity @s[tag=smolmen.blue_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 1 positioned ~-20 -64 ~-20 run tag @a[team=red,dx=40,dz=40,dy=400] add smolmen.restricted
 execute if entity @s[tag=smolmen.blue_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 2 positioned ~-30 -64 ~-30 run tag @a[team=red,dx=60,dz=60,dy=400] add smolmen.restricted
 execute if entity @s[tag=smolmen.blue_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 3 positioned ~-40 -64 ~-40 run tag @a[team=red,dx=80,dz=80,dy=400] add smolmen.restricted
 execute if entity @s[tag=smolmen.blue_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 4 positioned ~-50 -64 ~-50 run tag @a[team=red,dx=100,dz=100,dy=400] add smolmen.restricted
