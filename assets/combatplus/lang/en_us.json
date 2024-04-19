@@ -1,0 +1,33 @@
+{
+    "text.combatplus.resourcepack": "",
+	
+	"item.combatplus.katana":"%s Katana",
+	"item.combatplus.knife":"%s Knife",
+	"item.combatplus.spear":"%s Spear",
+	"item.combatplus.scythe":"%s Scythe",
+	"item.combatplus.sickle":"%s Sickle",
+	"item.combatplus.mace":"%s Mace",
+	"item.combatplus.hammer":"%s Hammer",
+	"item.combatplus.arc_star":"%s Arc Star",
+	
+	"item.combatplus.wooden":"Wooden",
+	"item.combatplus.golden":"Golden",
+	"item.combatplus.stone":"Stone",
+	"item.combatplus.iron":"Iron",
+	"item.combatplus.diamond":"Diamond",
+	"item.combatplus.netherite":"Netherite",
+	
+	"lore.combatplus.added_by": "Combat+",
+	"lore.combatplus.attack_speed": " %f Attack Speed",
+	"lore.combatplus.attack_damage": " %f Attack Damage",
+	"lore.combatplus.attack_decay": " %f Attack Decay",
+	"lore.combatplus.attack_combo": " %f Attack Combo",
+	"lore.combatplus.impact_damage": " %f Impact Damage",
+	"lore.combatplus.explosion_damage": " %f Explosion Damage",
+	
+	"lore.combatplus.damage_decay": "Damage Decay",
+	"lore.combatplus.damage_combo": "Combo Damage",
+	"lore.combatplus.no_cooldown": "No Cooldown",
+	"lore.combatplus.modified_cooldown": "Linear Cooldown",
+	"lore.combatplus.modified_kb": "+Knockback"
+}
