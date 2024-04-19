@@ -6,3 +6,6 @@ execute if entity @s[scores={smolmen.wfoas=1..}] at @s function smolmen:player/w
 append function smolmen:player/wfoas:
     scoreboard players reset @s smolmen.wfoas
 
+# gm control
+execute if entity @s[gamemode=survival,tag=smolmen.restricted] run gamemode adventure @s
+execute if entity @s[gamemode=adventure,tag=!smolmen.restricted] run gamemode survival @s
