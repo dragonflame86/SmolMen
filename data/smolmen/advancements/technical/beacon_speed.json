@@ -1,0 +1,17 @@
+{
+  "criteria": {
+      "requirement": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+          "effects": {
+          "minecraft:speed": {
+              "ambient": true
+          }
+          }
+      }
+      }
+  },
+  "rewards": {
+      "function": "smolmen:player/effects/beacon_speed"
+  }
+}
