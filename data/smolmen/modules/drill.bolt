@@ -11,25 +11,56 @@ append item_tag ~/fuel {
 
 function ~/tick:
     tag @a[gamemode=survival, distance=..16] add smolmen.restricted
+    unless items block ~ ~3 ~ container.0 * item replace block ~ ~3 ~ container.0 with cobblestone[hide_tooltip={},custom_model_data=1,custom_data={gui:1b}] 
+    item replace block ~ ~3 ~ container.2 with air
 
-    positioned ~ ~3 ~ if items block ~ ~ ~ container.1 #smolmen:drill/fuel function ~/../place_item:
-        item replace block ~ ~ ~ container.0 with cobblestone[hide_tooltip={}] 
+    store result score #burnTime smolmen.dummy data get block ~ ~3 ~ BurnTime
+
+    if entity @s[tag=!smolmen.running] if score #burnTime smolmen.dummy matches 1.. function ~/../start
+    if entity @s[tag=smolmen.running] unless score #burnTime smolmen.dummy matches 1.. function ~/../reset
+
+    if entity @s[tag=smolmen.running] function ~/../run
+
+function ~/reset:
+    tag @s remove smolmen.running
 
 
-function ~/generate:
-    scoreboard players remove @s smolmen.dummy 1
+function ~/start:
+    tag @s add smolmen.running
+
+function ~/run:
     particle block{block_state: {Name: "minecraft:stone"}} ~ ~ ~ 0.25 0 0.25 0 5 normal
 
+    at @s tp @s ~ ~ ~ ~45 ~
+
+    scoreboard players add @s smolmen.dummy 1
+
+    if score @s smolmen.dummy matches 1200.. function ~/../generate 
+
+function ~/generate:
+    scoreboard players reset @s smolmen.dummy
+    loot insert ~ ~1 ~ mine ~ 128 ~ stone[custom_data={drop_contents:1b}]
+
 function ~/spawn:
-    align xyz positioned ~.5 ~ ~.5 summon marker:
-        data merge entity @s {Tags: ["smolmen.drill_site"]}
+    align xyz positioned ~.5 ~ ~.5 function ~/set:
+        summon block_display ~ ~ ~ {
+            block_state: {Name: "minecraft:hopper"},
+            transformation: {
+                translation: [-0.75, 0.5, -0.75],
+                left_rotation: [0,0,0,1],
+                right_rotation: [0,0,0,1],
+                scale: [1.5, 1.5, 1.5]
+            },
+            teleport_duration: 1,
+            Tags: ["smolmen.drill_site"]
+        }
+
 
 function ~/1_second:
-    if items block ~ ~ ~ container.1 #smolmen:drill/fuel function ./drill/generate
-
+    store result score @s 
 
 append function ./tick:
-    as @e[type=marker,tag=smolmen.drill_site] at @s function ./drill/tick
+    as @e[type=block_display,tag=smolmen.drill_site] at @s function ./drill/tick
 
 append function ./1_second:
-    as @e[type=marker,tag=smolmen.drill_site] at @s function ./drill/1_second
+    as @e[type=block_display,tag=smolmen.drill_site] at @s function ./drill/1_second
