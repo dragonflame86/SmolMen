@@ -1,9 +1,7 @@
+
 attribute @s minecraft:generic.max_health base set 6
-
 attribute @s minecraft:generic.scale base set 0.4
-
 attribute @s minecraft:generic.movement_speed base set 0.075
-
 attribute @s minecraft:generic.jump_strength base set 0.35
 attribute @s minecraft:generic.step_height base set 1.1
 
