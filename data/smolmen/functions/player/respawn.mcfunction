@@ -8,3 +8,7 @@ attribute @s minecraft:generic.step_height base set 1.1
 raw attribute @s minecraft:generic.attack_damage modifier add 1234-0-0-0-1 "smolDamage" -0.5 add_multiplied_total
 
 scoreboard players set @s smolmen.death 0
+
+execute if entity @s[team=red] if entity @e[tag=smolmen.red_beacon,tag=smolmen.regenerating] run tag @s add smolmen.dead
+execute if entity @s[team=blue] if entity @e[tag=smolmen.blue_beacon,tag=smolmen.regenerating] run tag @s add smolmen.dead
+execute if entity @s[tag=smolmen.dead] run gamemode spectator @s

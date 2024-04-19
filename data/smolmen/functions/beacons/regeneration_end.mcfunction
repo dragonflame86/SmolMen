@@ -13,3 +13,5 @@ execute if entity @s[tag=smolmen.blue_beacon] run bossbar set smolmen:blue_beaco
 
 execute if entity @s[tag=smolmen.red_beacon] run tellraw @a {"text":"The Red Beacon regenerated! Respawn and vanguish the invaders!","color":"green"}
 execute if entity @s[tag=smolmen.blue_beacon] run tellraw @a {"text":"The Blue Beacon regenerated! Respawn and vanguish the invaders!","color":"green"}
+
+fill ~-3 ~-3 ~-3 ~3 ~3 ~3 air replace lava

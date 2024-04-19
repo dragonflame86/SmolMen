@@ -35,3 +35,7 @@ execute if entity @s[tag=smolmen.blue_beacon,tag=!smolmen.regenerating] if score
 execute if entity @s[tag=smolmen.blue_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 2 positioned ~-30 -64 ~-30 run tag @a[team=red,dx=60,dz=60,dy=400] add smolmen.restricted
 execute if entity @s[tag=smolmen.blue_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 3 positioned ~-40 -64 ~-40 run tag @a[team=red,dx=80,dz=80,dy=400] add smolmen.restricted
 execute if entity @s[tag=smolmen.blue_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 4 positioned ~-50 -64 ~-50 run tag @a[team=red,dx=100,dz=100,dy=400] add smolmen.restricted
+
+# glass
+execute if entity @s[tag=smolmen.red_beacon] run setblock ~ ~1 ~ minecraft:red_stained_glass
+execute if entity @s[tag=smolmen.blue_beacon] run setblock ~ ~1 ~ minecraft:blue_stained_glass
