@@ -1,5 +1,6 @@
 
-execute if block ~ ~ ~ minecraft:beacon store result score @s smolmen.id run data get block ~ ~ ~ Levels
+# get and store beacon data
+execute if score #timer.100 smolmen.dummy matches 0 run function smolmen:beacons/get_data
 
 # set max health
 execute if score @s smolmen.id matches 0 run scoreboard players set #max_health smolmen.dummy 40
