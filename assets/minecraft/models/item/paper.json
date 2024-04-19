@@ -1,0 +1,23 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "minecraft:item/paper"
+    },
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [-25, 0, -45],
+			"translation": [-7, 4, 22],
+			"scale": [2.38, 2.38, 2.38]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [-25, 0, 45],
+			"translation": [-4, 4, 22],
+			"scale": [2.38, 2.38, 2.38]
+		},
+		"firstperson_righthand": {
+			"rotation": [90, 0, 45],
+			"translation": [-8, 12, 10],
+			"scale": [1.904, 1.904, 1.904]
+		}
+	}
+}
