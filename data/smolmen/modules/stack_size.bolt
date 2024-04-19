@@ -20,37 +20,40 @@ advancement smolmen:technical/picked_up_64 {
     }
 }
 
-function ~/trigger:
-    advancement revoke @s only smolmen:technical/picked_up_64
-    
+function ~/trigger: 
+    if entity @s[gamemode=creative] return run advancement revoke @s only smolmen:technical/picked_up_64
+
     slots = 36
     memo slots:
         for i in range(slots):
             raw (f"execute if items entity @s container.{i} *[minecraft:max_stack_size=64] run function smolmen:stack_size/update_stack_size {{i: {i}}}") 
 
+    advancement revoke @s only smolmen:technical/picked_up_64
+
 function ~/update_stack_size:
     $data modify storage smolmen:temp item set from entity @s Inventory[{Slot: $(i)b}]
 
-    execute store result score #count smolmen.dummy data get storage smolmen:temp item.count
+    $execute store result score #count smolmen.dummy if items entity @s container.$(i) *
     data modify storage smolmen:temp item.components merge value {"minecraft:max_stack_size": 16}
 
+    $execute if score #count smolmen.dummy matches 16.. run item modify entity @s container.$(i) [{"function": "set_count", "count": 16}]
     $item modify entity @s container.$(i) [{"function": "set_components", "components": {"minecraft:max_stack_size": 16}}]
 
     $execute if score #count smolmen.dummy matches 17.. run function smolmen:stack_size/handle_overage {i: $(i)}
     function ./stack_size/handle_overage:
-      $item modify entity @s container.$(i) {"function": "set_count", "count": 16}
-      scoreboard players remove #count smolmen.dummy 16
-      execute function ./stack_size/return_item with storage smolmen:temp item:
-        if score #count smolmen.dummy matches 1..15 function ~/less_16:
-            store result storage smolmen:temp item.count int 1 scoreboard players get #count smolmen.dummy
-            execute function ./return_item_with_count with storage smolmen:temp item:
-              $summon item ~ ~ ~ {Item:{id: "$(id)", components: $(components), count: $(count)}} 
+        $item modify entity @s container.$(i) {"function": "set_count", "count": 16}
+        scoreboard players remove #count smolmen.dummy 16
+        execute function ./stack_size/return_item with storage smolmen:temp item:
+            if score #count smolmen.dummy matches 1..15 function ~/less_16:
+                store result storage smolmen:temp item.count int 1 scoreboard players get #count smolmen.dummy
+                execute function ./return_item_with_count with storage smolmen:temp item:
+                    $summon item ~ ~ ~ {Item:{id: "$(id)", components: $(components), count: $(count)}} 
 
-        if score #count smolmen.dummy matches 16.. function ~/gte_16 with storage smolmen:temp item:
-            scoreboard players remove #count smolmen.dummy 16
+            if score #count smolmen.dummy matches 16.. function ~/gte_16 with storage smolmen:temp item:
+                scoreboard players remove #count smolmen.dummy 16
 
-            $summon item ~ ~ ~ {Item:{id: "$(id)", components: $(components), count: 16}} 
-            function ./stack_size/return_item with storage smolmen:temp item
+                $summon item ~ ~ ~ {Item:{id: "$(id)", components: $(components), count: 16}} 
+                function ./stack_size/return_item with storage smolmen:temp item
             
 function ~/update_ground_item:
     raw item modify entity @s contents {"function": "set_components", "components": {"max_stack_size": 16}}       

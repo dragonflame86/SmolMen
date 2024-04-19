@@ -25,7 +25,9 @@
                 "smithed": {
                     "id": "smolmen:flare"
                 }
-            }
+            },
+            "!minecraft:max_damage": {},
+            "!minecraft:tool": {}
         }
 
     }

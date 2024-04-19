@@ -26,13 +26,14 @@ def beet_default(ctx: Context):
         .mount("data/minecraft/tags/items")
         .mount("assets/minecraft/models")
     )
+    yield
 
-    tools_tag = minecraft.data.item_tags["minecraft:tools"]
+    tools_tag = ctx.data.item_tags["smolmen:tools"]
 
     tools = collect(minecraft, tools_tag)
 
     with ctx.generate.draft() as draft:
-        draft.cache("scaled_models", str(len(tools)), zipped=True)
+        draft.cache("scaled_modls", str("".join(tools)), zipped=True)
         for tool in tools:
             tool_id = tool.split(':')[1] 
             model = minecraft.assets.models["minecraft:item/" + tool_id].data
@@ -48,7 +49,9 @@ def beet_default(ctx: Context):
 
             draft.assets["minecraft:item/" + tool_id] = Model(model)
 
-            model_parent = model["parent"].split(':')[1] 
+            model_parent = model["parent"].split(':')[-1] 
+            if model_parent == "item/generated":
+                model_parent = "item/handheld"
 
             if "smolmen:" + model_parent not in draft.assets.models:
                 draft.assets["smolmen:" + model_parent] = scale_up_parent(minecraft.assets.models["minecraft:" + model_parent].data)

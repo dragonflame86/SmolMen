@@ -9,6 +9,7 @@ require:
   - mecha.contrib.raw
   - bolt
   - plugins.generate_tool_models
+  - plugins.generate_recipes
 
 data_pack:
   name: Smol Men
@@ -25,3 +26,5 @@ output: '__dist__'
 meta:
   bolt:
     entrypoint: "*"
+  mecha:
+    commands: "https://raw.githubusercontent.com/misode/mcmeta/summary/commands/data.json"

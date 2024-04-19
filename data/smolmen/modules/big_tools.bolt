@@ -7,7 +7,7 @@ advancement smolmen:technical/picked_up_tool {
         "conditions": {
             "items": [
                     {
-                        "items": "#tools"
+                        "items": "#smolmen:tools"
                     }
                 ]
             }
@@ -41,7 +41,7 @@ predicate smolmen:technical/holding_tool {
       "predicate": {
         "equipment": {
           "mainhand": {
-            "items": "#minecraft:tools"
+            "items": "#smolmen:tools"
           }
         }
       }
@@ -52,7 +52,7 @@ predicate smolmen:technical/holding_tool {
       "predicate": {
         "equipment": {
           "offhand": {
-            "items": "#minecraft:tools"
+            "items": "#smolmen:tools"
           }
         }
       }
@@ -67,7 +67,7 @@ function ~/trigger:
     slots = 36
     memo slots:
       for i in range(slots):
-          raw (f"execute if items entity @s container.{i} #tools run item modify entity @s container.{i} smolmen:technical/enlarge_tool") 
+          raw (f"execute if items entity @s container.{i} #smolmen:tools run item modify entity @s container.{i} smolmen:technical/enlarge_tool") 
 
 
 function ~/reset_item:
@@ -87,7 +87,7 @@ function ~/remove_debuffs:
     tag @s remove smolmen.debuffed
 
 append function ./check_items:
-    raw execute if items entity @s contents #tools run function smolmen:big_tools/reset_item
+    raw execute if items entity @s contents #smolmen:tools run function smolmen:big_tools/reset_item
 
 append function ./tick:
     as @a[predicate=smolmen:technical/holding_tool,tag=!smolmen.debuffed] function ./big_tools/apply_debuffs

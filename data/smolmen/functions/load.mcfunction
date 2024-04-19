@@ -41,3 +41,5 @@ execute summon marker function ~/get_world_spawn:
 tellraw @a [{"text":"[Smol Men] ", "bold": true, "color": "gold"},{"text":"loaded.", "bold": false, "color": "white"}]
 
 gamerule reducedDebugInfo true
+
+schedule function ./1_second 1s replace

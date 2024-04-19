@@ -12,11 +12,11 @@ function ~/throw:
 function ~/tick:
     scoreboard players add @s smolmen.dummy 1
     fill ~5 ~5 ~5 ~-5 ~-5 ~-5 air replace light[waterlogged=false]
-    fill ~5 ~5 ~5 ~-5 ~-5 ~-5 water replace light[waterlogged=true]
+    fill ~5 ~5 ~5 ~-5 ~-5 ~-5 water[level=0] replace light[waterlogged=true]
 
     if score @s smolmen.dummy matches 200.. return run kill @s
     if block ~ ~ ~ #smolmen:air setblock ~ ~ ~ light[level=15]
-    if block ~ ~ ~ water setblock ~ ~ ~ light[waterlogged=true,level=15]
+    if block ~ ~ ~ water[level=0] setblock ~ ~ ~ light[waterlogged=true,level=15]
     particle minecraft:flame ~ ~ ~ 0.1 0.1 0.1 0 5
 
 append function ./tick:

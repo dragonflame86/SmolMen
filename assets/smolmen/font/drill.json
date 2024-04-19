@@ -1,0 +1,21 @@
+{
+  "providers": [
+    {
+      "type": "space",
+      "advances": {
+        " ": 4,
+        "\uc000": -138,
+        "\uc003": -169
+      }
+    },
+    {
+      "type": "bitmap",
+      "file": "smolmen:gui/drill.png",
+      "ascent": 13,
+      "height": 256,
+      "chars": [
+        "\uc002"
+      ]
+    }
+  ]
+}

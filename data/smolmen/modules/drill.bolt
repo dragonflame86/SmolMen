@@ -1,0 +1,35 @@
+FUEL_SOURCES = {
+    "minecraft:coal": 1600,
+    "minecraft:coal_block": 16000 ,
+    "minecraft:lava_bucket": 20000,
+    "minecraft:blaze_rod": 2400
+}
+
+append item_tag ~/fuel {
+    "values": list(FUEL_SOURCES.keys())
+} 
+
+function ~/tick:
+    tag @a[gamemode=survival, distance=..16] add smolmen.restricted
+
+    positioned ~ ~3 ~ if items block ~ ~ ~ container.1 #smolmen:drill/fuel function ~/../place_item:
+        item replace block ~ ~ ~ container.0 with cobblestone[hide_tooltip={}] 
+
+
+function ~/generate:
+    scoreboard players remove @s smolmen.dummy 1
+    particle block{block_state: {Name: "minecraft:stone"}} ~ ~ ~ 0.25 0 0.25 0 5 normal
+
+function ~/spawn:
+    align xyz positioned ~.5 ~ ~.5 summon marker:
+        data merge entity @s {Tags: ["smolmen.drill_site"]}
+
+function ~/1_second:
+    if items block ~ ~ ~ container.1 #smolmen:drill/fuel function ./drill/generate
+
+
+append function ./tick:
+    as @e[type=marker,tag=smolmen.drill_site] at @s function ./drill/tick
+
+append function ./1_second:
+    as @e[type=marker,tag=smolmen.drill_site] at @s function ./drill/1_second
