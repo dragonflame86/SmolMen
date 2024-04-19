@@ -64,6 +64,7 @@ execute summon marker function ~/get_world_spawn:
 
 tellraw @a [{"text":"[Smol Men] ", "bold": true, "color": "gold"},{"text":"loaded.", "bold": false, "color": "white"}]
 
+
 # configure gamerules
 gamerule reducedDebugInfo true
 gamerule disableRaids true
@@ -73,3 +74,5 @@ gamerule doTraderSpawning false
 gamerule spectatorsGenerateChunks false
 gamerule randomTickSpeed 2
 gamerule snowAccumulationHeight -1
+
+schedule function ./1_second 1s replace

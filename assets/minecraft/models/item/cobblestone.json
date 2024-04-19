@@ -1,0 +1,12 @@
+{
+    "parent": "block/cobblestone",
+
+    "overrides": [
+        {
+            "predicate": {
+                "custom_model_data": 1
+            },
+            "model": "smolmen:item/empty"
+        }
+    ]
+}

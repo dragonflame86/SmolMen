@@ -9,6 +9,7 @@ require:
   - mecha.contrib.raw
   - bolt
   - plugins.generate_tool_models
+  - plugins.generate_recipes
 
 data_pack:
   name: Smol Men

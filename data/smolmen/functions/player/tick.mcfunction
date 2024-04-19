@@ -17,3 +17,6 @@ execute if entity @s[team=blue,tag=smolmen.dead] unless entity @p[team=blue,dist
 
 execute if entity @s[team=red,tag=smolmen.dead] unless entity @e[tag=smolmen.red_beacon,tag=smolmen.regenerating] run function smolmen:player/exit_dead_state
 execute if entity @s[team=blue,tag=smolmen.dead] unless entity @e[tag=smolmen.blue_beacon,tag=smolmen.regenerating] run function smolmen:player/exit_dead_state
+
+# remove gui items from inv
+execute if items entity @s container.* cobblestone[custom_data~{gui:1b}] clear @s *[custom_data~{gui:1b}]
