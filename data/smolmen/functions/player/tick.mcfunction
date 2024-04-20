@@ -53,3 +53,9 @@ execute if score @s smolmen.drop_horn matches 1.. function ~/cycle_horn:
 
 # horn cooldown
 execute if score @s smolmen.drill_cooldown matches 1.. run scoreboard players remove @s smolmen.drill_cooldown 1
+
+# scoreboard stats
+execute if score @s[team=red] smolmen.kill_blue matches 1.. run scoreboard players add #red_player_kills smolmen.dummy 1
+execute if score @s[team=blue] smolmen.kill_red matches 1.. run scoreboard players add #blue_player_kills smolmen.dummy 1
+scoreboard players reset @s smolmen.kill_red
+scoreboard players reset @s smolmen.kill_blue
