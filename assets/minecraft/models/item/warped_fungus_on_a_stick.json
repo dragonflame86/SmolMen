@@ -15,6 +15,12 @@
                 "custom_model_data": 2
             },
             "model": "smolmen:item/flare"
+        },
+        {
+            "predicate": {
+                "custom_model_data": 3
+            },
+            "model" : "smolmen:item/cod_saddle"
         }
     ]
 }
