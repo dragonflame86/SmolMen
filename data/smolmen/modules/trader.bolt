@@ -7,6 +7,33 @@ CROP_OFFERS = [
     "minecraft:acacia_sapling",
     "minecraft:jungle_sapling",
     "minecraft:mangrove_propagule",
+    "minecraft:cherry_sapling"
+
+]
+
+PLANT_OFFERS = [
+    "minecraft:sugar_cane",
+    "minecraft:potato",
+    "minecraft:carrot",
+    "minecraft:beetroot",
+    "minecraft:cactus",
+    "minecraft:glow_berries",
+    "minecraft:sweet_berries",
+    "minecraft:kelp",
+    "minecraft:melon_seeds",
+    "minecraft:wheat_seeds",
+    "minecraft:pumpkin_seeds",
+    "minecraft:chorus_flower"
+]
+
+BLOCK_OFFERS = [
+    "minecraft:packed_ice",
+    "minecraft:grass_block",
+    "minecraft:end_stone",
+    "minecraft:sponge",
+    "minecraft:moss_block",
+    "minecraft:prismarine",
+    "minecraft:dark_prismarine"
 ]
 
 MOB_OFFERS = [
@@ -46,6 +73,40 @@ function ~/randomize_offers:
             },
             maxUses: 2
         }
+    store result storage smolmen:temp trades[-1].buy.count int 1 random value 1..3
+    store result storage smolmen:temp trades[-1].maxUses int 1 random value 1..4
+
+    store result score #rand smolmen.dummy random value (0, len(PLANT_OFFERS) - 1) 
+    for i in range(len(PLANT_OFFERS)):
+        if score #rand smolmen.dummy matches i data modify storage smolmen:temp trades append value {
+            sell: {
+                id: PLANT_OFFERS[i],
+                count: 1
+            },
+            buy: {
+                id: "minecraft:emerald",
+                count: 2
+            },
+            maxUses: 2
+        }
+    store result storage smolmen:temp trades[-1].buy.count int 1 random value 1..3
+    store result storage smolmen:temp trades[-1].maxUses int 1 random value 2..6
+    
+    store result score #rand smolmen.dummy random value (0, len(BLOCK_OFFERS) - 1) 
+    for i in range(len(BLOCK_OFFERS)):
+        if score #rand smolmen.dummy matches i data modify storage smolmen:temp trades append value {
+            sell: {
+                id: BLOCK_OFFERS[i],
+                count: 1
+            },
+            buy: {
+                id: "minecraft:emerald",
+                count: 2
+            },
+            maxUses: 64444
+        }
+    store result storage smolmen:temp trades[-1].buy.count int 1 random value 1..3
+    store result storage smolmen:temp trades[-1].sell.count int 1 random value 1..4
 
     store result score #rand smolmen.dummy random value (0, len(MOB_OFFERS) - 1) 
     for i in range(len(MOB_OFFERS)):
@@ -60,7 +121,8 @@ function ~/randomize_offers:
             },
             maxUses: 2
         }
-
+    store result storage smolmen:temp trades[-1].buy.count int 1 random value 3..6 
+    
     store result score #rand smolmen.dummy random value (0, len(ORE_OFFERS.keys()) - 1) 
     i = 0
     for k in ORE_OFFERS:
