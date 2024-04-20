@@ -18,24 +18,25 @@ def pick_leader(team: str):
     tag @s add smolmen.leader
     tellraw @a ["", {"selector": "@s"}, " is now the leader of the ", {"text": (team[0].upper() + team[1:]), "color": team}, " team"]
 
-    attribute @s minecraft:generic.max_health base set 10
+    attribute @s minecraft:generic.max_health base set 14
 
     attribute @s minecraft:generic.scale base set 0.54
 
     raw attribute @s minecraft:generic.attack_damage modifier add 1234-0-0-0-1 "smolDamage" -0.33 add_multiplied_total
     
-    pattern = [
-        {color: "yellow", pattern: "minecraft:creeper"}, 
-        {color: "yellow", pattern: "minecraft:skull"}, 
-        {color: team, pattern: "minecraft:piglin"}, 
-        {color: team, pattern: "minecraft:stripe_bottom"}, 
-        {color: team, pattern: "minecraft:half_horizontal"}, 
-        {color: team, pattern: "minecraft:stripe_bottom"}
-    ] 
-
-    
-
-    item replace entity @s armor.head with f"{team}_banner"[minecraft:custom_data={leader:1b},minecraft:enchantment_glint_override=false,minecraft:enchantments={"minecraft:binding_curse":1},minecraft:banner_patterns=pattern,minecraft:hide_additional_tooltip={}]
+    store result score #cmd smolmen.dummy data get entity @s Inventory[{Slot: 103b}].components."minecraft:custom_model_data"
+    scoreboard players add #cmd smolmen.dummy 2
+    item modify entity @s armor.head {
+        "function": "minecraft:set_custom_model_data", 
+        "value": {
+            "type": "minecraft:score",
+            "target": {
+                "type": "minecraft:fixed",
+                "name": "#cmd"
+            },
+            "score": "smolmen.dummy"
+        }
+    }
 
 function ~/pick_red_leader:
     pick_leader("red")
@@ -51,8 +52,7 @@ function ~/check_blue_leader:
 
 function ~/reset:
     tag @s remove smolmen.leader
-    function ./respawn
-    item replace entity @s armor.head with air
+    function ./player/respawn
 
 function ~/red_relog:
     scoreboard players reset @s smolmen.leave

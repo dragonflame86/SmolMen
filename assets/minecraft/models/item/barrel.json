@@ -6,6 +6,31 @@
             "custom_model_data": 1
         },
         "model": "smolmen:block/barrel_cutout"
+    },
+    {
+        "predicate": {
+            "custom_model_data": 2
+        },
+        "model": "smolmen:item/red_beard"
+    },
+    {
+        "predicate": {
+            "custom_model_data": 3
+        },
+        "model": "smolmen:item/blue_beard"
+    },
+    {
+        "predicate": {
+            "custom_model_data": 3
+        },
+        "model": "smolmen:item/red_crown_beard"
+    },
+    {
+        "predicate": {
+            "custom_model_data": 4
+        },
+        "model": "smolmen:item/blue_crown_beard"
     }
+
   ]
 }
