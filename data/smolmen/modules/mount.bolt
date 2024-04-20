@@ -41,10 +41,16 @@ append function ./load:
 function ./mounts/water_control:
 
     scoreboard players operation smolmen.speed_multiplier smolmen.dummy = smolmen.salmon_speed smolmen.dummy
-    on passengers store result score smolmen.motionY smolmen.dummy data get entity @s Rotation[1] -0.05
+    on passengers store result score smolmen.motionY smolmen.dummy data get entity @s Rotation[1] -1
 
-    execute store result entity @s Motion[1] double 0.1 run scoreboard players get smolmen.motionY smolmen.dummy
-    if predicate smolmen:in_water function smolmen:mounts/mount_standard_tick
+    unless score smolmen.motionY smolmen.dummy matches -20..20:
+        ## Normalize motion Y size for motion calculations
+        if score smolmen.motionY smolmen.dummy matches ..-1 run scoreboard players add smolmen.motionY smolmen.dummy 20
+        if score smolmen.motionY smolmen.dummy matches 1.. run scoreboard players remove smolmen.motionY smolmen.dummy 20
+
+        unless score smolmen.motionY smolmen.dummy matches 0 store result entity @s Motion[1] double 0.01 run scoreboard players get smolmen.motionY smolmen.dummy
+
+    function smolmen:mounts/mount_standard_tick
 
 function ./mounts/air_control:
     say bye
@@ -52,10 +58,10 @@ function ./mounts/air_control:
 
 function ./mounts/mount_tick:
     ## Ticks mount movement code
-    if entity @s[type=#smolmen:water_mounts] function smolmen:mounts/water_control
+    if entity @s[type=#smolmen:water_mounts] if predicate smolmen:in_water run function smolmen:mounts/water_control
     if entity @s[type=#smolmen:air_mounts] function smolmen:mounts/air_control
 
-    if entity @s[type=!#smolmen:air_mount,type=!#smolmen:water_mount]:
+    unless entity @s[type=#smolmen:air_mounts] unless entity @s[type=#smolmen:water_mounts]:
         if predicate smolmen:in_water scoreboard players operation smolmen.speed_multiplier smolmen.dummy = smolmen.water_speed smolmen.dummy
         function smolmen:mounts/mount_standard_tick
         
