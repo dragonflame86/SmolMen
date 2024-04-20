@@ -16,6 +16,7 @@
             "minecraft:lore": [
                 "{\"color\":\"gray\",\"italic\":false,\"translate\":\"item.smolmen.parachute\"}"
             ],
+            "minecraft:max_stack_size": 16,
             "minecraft:attribute_modifiers": {
                 "show_in_tooltip": false,
                 "modifiers": [

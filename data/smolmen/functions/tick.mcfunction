@@ -18,6 +18,9 @@ execute as 9e6899f4-114c-4cf5-8140-b5bac8423526 at @s run function smolmen:beaco
 
 as @e[type=block_display,tag=smolmen.drill_site] at @s function ./drill/tick
 
+# Minecarts
+execute as @e[type=#smolmen:minecarts] at @s run function smolmen:mounts/minecarts
+
 # Player Control
 execute as @a at @s run function smolmen:player/tick
 execute as @e[type=player,scores={smolmen.death=1..}] run function smolmen:player/respawn
