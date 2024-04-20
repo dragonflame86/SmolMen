@@ -159,8 +159,6 @@ append function ~/reset_spawn:
     tag @s remove smolmen.bed.spawn_point
     
 
-append function ./player/respawn:
-    if entity @s[tag=smolmen.bed.spawn_point] at @s unless entity @e[type=item_display,tag=smolmen.bed,distance=..0.25] function ./bed/reset_spawn with storage smolmen:const world_spawn
 
 append function ./player/wfoas:
     raw execute if items entity @s weapon.mainhand warped_fungus_on_a_stick[custom_data~{smithed:{id:"smolmen:bed"}}] run function smolmen:bed/place {slot: "mainhand"}
