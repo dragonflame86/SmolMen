@@ -1,6 +1,13 @@
 {
-    "pack": {
-        "pack_format": 180,
-        "description": "A datapack about being smol"
-    }
+  "pack": {
+    "pack_format": 42,
+    "description": "A datapack about being smol"
+  },
+  "filter": {
+    "block": [
+      {
+        "path": ".+_bed"
+      }
+    ]
+  }
 }

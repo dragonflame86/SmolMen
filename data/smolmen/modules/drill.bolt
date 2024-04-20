@@ -10,7 +10,7 @@ append item_tag ~/fuel {
 } 
 
 function ~/tick:
-    tag @a[gamemode=survival, distance=..16] add smolmen.restricted
+    tag @a[distance=..12] add smolmen.restricted
     unless items block ~ ~3 ~ container.0 * item replace block ~ ~3 ~ container.0 with cobblestone[hide_tooltip={},custom_model_data=1,custom_data={gui:1b}] 
     item replace block ~ ~3 ~ container.2 with air
 
@@ -23,19 +23,20 @@ function ~/tick:
 
 function ~/reset:
     tag @s remove smolmen.running
-
+    setblock ~ ~4 ~ waxed_copper_bulb[lit=false] 
 
 function ~/start:
     tag @s add smolmen.running
+    setblock ~ ~4 ~ waxed_copper_bulb[lit=true] 
 
 function ~/run:
     particle block{block_state: {Name: "minecraft:stone"}} ~ ~ ~ 0.25 0 0.25 0 5 normal
 
-    at @s tp @s ~ ~ ~ ~45 ~
+    at @s tp @s ~ ~ ~ ~30 ~
 
     scoreboard players add @s smolmen.dummy 1
 
-    if score @s smolmen.dummy matches 1200.. function ~/../generate 
+    if score @s smolmen.dummy >= @s smolmen.drill_cooldown function ~/../generate 
 
 function ~/generate:
     scoreboard players reset @s smolmen.dummy
@@ -51,16 +52,33 @@ function ~/spawn:
                 right_rotation: [0,0,0,1],
                 scale: [1.5, 1.5, 1.5]
             },
-            teleport_duration: 1,
+            teleport_duration: 2,
             Tags: ["smolmen.drill_site"]
         }
 
+    setblock ~ 128 ~ yellow_shulker_box[facing=north]{Items:[{id:"minecraft:stone",count:1}],CustomName:'{"text":"Drill Loot"}'}
+    setblock ~ 129 ~ barrel{Items:[{id:"minecraft:stone",count:60}],CustomName: '{"text": "Drill Timer, 1 item = 1 tick"}'} 
+
+    setblock ~ ~ ~ minecraft:structure_block[mode=load]{mode:"LOAD",name:"minecraft:drill",posX:-8,posY:-1,posZ:-8,powered:0b,rotation:"NONE",sizeX:17,sizeY:7,sizeZ:17}
+
+    function ~/n:
+        data merge block ~ ~ ~ {posX: -8, posZ: -8, rotation: "NONE"}
+    function ~/e:
+        data merge block ~ ~ ~ {posX: 8, posZ: -8, rotation: "CLOCKWISE_90"}
+    function ~/s:
+        data merge block ~ ~ ~ {posX: 8, posZ: 8, rotation: "CLOCKWISE_180"}
+    function ~/w:
+        data merge block ~ ~ ~ {posX: -8, posZ: 8, rotation: "COUNTERCLOCKWISE_90"}
+    
+    $function smolmen:drill/spawn/$(facing)
+
+    setblock ~ ~1 ~ redstone_block
 
 function ~/1_second:
-    store result score @s 
+    store result score @s smolmen.drill_cooldown if items block ~ 129 ~ container.* * 
 
-append function ./tick:
-    as @e[type=block_display,tag=smolmen.drill_site] at @s function ./drill/tick
+    unless items block ~ ~1 ~ container.* * setblock ~ ~-2 ~ redstone_torch
+    if items block ~ ~1 ~ container.* * setblock ~ ~-2 ~ air
 
 append function ./1_second:
     as @e[type=block_display,tag=smolmen.drill_site] at @s function ./drill/1_second

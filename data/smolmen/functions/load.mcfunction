@@ -18,6 +18,8 @@ scoreboard objectives add smolmen.id dummy
 scoreboard objectives setdisplay below_name smolmen.health
 scoreboard objectives setdisplay list smolmen.death
 
+scoreboard objectives add smolmen.drill_cooldown dummy
+
 # init teams
 team add red {"text": "Red", "color": "red"}
 team modify red color red
