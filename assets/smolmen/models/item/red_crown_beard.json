@@ -1,0 +1,7 @@
+{
+    "parent": "smolmen:item/crown_beard",
+    "textures": {
+        "0": "smolmen:item/red_beard",
+        "1": "smolmen:item/crown"
+    }
+}
