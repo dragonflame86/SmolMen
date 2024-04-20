@@ -3,5 +3,28 @@
     "item.smolmen.extended_spear": "Extended Spear",
     "item.smolmen.bed": "Bed",
     "item.smolmen.flare": "Flare",
-    "item.smolmen.patachute": "Paper slows your fall!"
+    "item.smolmen.parachute": "Paper slows your fall!",
+
+    "lore.smolmen.cycle_horn": "Drop to change command.",
+
+    "item.smolmen.attack_horn": "Attack! Goat Horn",
+    "lore.smolmen.attack_horn_1": "Order your team to attack!",
+    "lore.smolmen.attack_horn_2": "Grants a Strength buff to nearby teammates",
+
+    "item.smolmen.defend_horn": "Defend! Goat Horn",
+    "lore.smolmen.defend_horn_1": "Order your team to defend!",
+    "lore.smolmen.defend_horn_2": "Grants a Resistance buff to nearby teammates",
+
+    "item.smolmen.explore_horn": "Explore! Goat Horn",
+    "lore.smolmen.explore_horn_1": "Order your team to explore!",
+    "lore.smolmen.explore_horn_2": "Grants a Speed buff to nearby teammates",
+
+    "item.smolmen.mine_horn": "Mine! Goat Horn",
+    "lore.smolmen.mine_horn_1": "Order your team to collect resources!",
+    "lore.smolmen.mine_horn_2": "Grants a Haste buff to nearby teammates",
+
+    "text.smolmen.attack": "You leader orders you to attack! Destroy the enemy!",
+    "text.smolmen.defend": "You leader orders you to defend! Repell the invaders!",
+    "text.smolmen.explore": "You leader orders you to explore! Find those resources!",
+    "text.smolmen.mine": "You leader orders you to collect resources! Hit the mine!"
 }

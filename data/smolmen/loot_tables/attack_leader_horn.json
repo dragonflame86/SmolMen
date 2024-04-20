@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:goat_horn",
+          "functions": [
+            {
+              "function": "minecraft:set_name",
+              "name": {"translate": "item.smolmen.attack_horn", "color": "white", "italic": false}
+            },
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{team_item:1b,smolmen:{leader_horn:1b, attack_horn:1b}}"
+            },
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:instrument": "call_goat_horn"
+              }
+            },
+            {
+              "function": "minecraft:set_lore",
+              "mode": "replace_all",
+              "lore": [
+                {"translate": "lore.smolmen.attack_horn_1", "color": "green", "italic": false},
+                {"translate": "lore.smolmen.attack_horn_2", "color": "green", "italic": false},
+                {"translate": "lore.smolmen.cycle_horn", "color": "blue", "italic": false}
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

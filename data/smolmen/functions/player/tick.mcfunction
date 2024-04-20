@@ -27,6 +27,29 @@ clear @s[team=blue] filled_map[custom_data~{team: "red"}]
 
 execute if entity @s[gamemode=survival,tag=!smolmen.op,y=128,dy=1] kill @s 
 
-execute if score @s smolmen.drop matches 1.. function ~/return_map:
+# process dropped maps
+execute if score @s smolmen.drop_map matches 1.. function ~/return_map:
     anchored eyes positioned ^ ^ ^ as @e[type=item,distance=..2] if items entity @s contents filled_map[custom_data~{team_item:1b}] data merge entity @s {PickupDelay:0s, Motion: [0,0,0], Tags:["smolmen.checked"]}
-    scoreboard players reset @s smolmen.drop
+    scoreboard players reset @s smolmen.drop_map
+
+# process dropped goat horns
+execute if score @s smolmen.drop_horn matches 1.. function ~/cycle_horn:
+    scoreboard players set #horn smolmen.dummy 0
+    if entity @s[tag=smolmen.leader] anchored eyes positioned ^ ^ ^ as @e[type=item,distance=..2] if items entity @s contents minecraft:goat_horn[custom_data~{smolmen:{attack_horn:1b}}] scoreboard players set #horn smolmen.dummy 1
+    if entity @s[tag=smolmen.leader] anchored eyes positioned ^ ^ ^ as @e[type=item,distance=..2] if items entity @s contents minecraft:goat_horn[custom_data~{smolmen:{defend_horn:1b}}] scoreboard players set #horn smolmen.dummy 2
+    if entity @s[tag=smolmen.leader] anchored eyes positioned ^ ^ ^ as @e[type=item,distance=..2] if items entity @s contents minecraft:goat_horn[custom_data~{smolmen:{explore_horn:1b}}] scoreboard players set #horn smolmen.dummy 3
+    if entity @s[tag=smolmen.leader] anchored eyes positioned ^ ^ ^ as @e[type=item,distance=..2] if items entity @s contents minecraft:goat_horn[custom_data~{smolmen:{mine_horn:1b}}] scoreboard players set #horn smolmen.dummy 4
+
+    if score #horn smolmen.dummy matches 1 if items entity @s weapon.mainhand * loot give @s loot smolmen:defend_leader_horn
+    if score #horn smolmen.dummy matches 1 unless items entity @s weapon.mainhand * loot replace entity @s weapon.mainhand loot smolmen:defend_leader_horn
+    if score #horn smolmen.dummy matches 2 if items entity @s weapon.mainhand * loot give @s loot smolmen:explore_leader_horn
+    if score #horn smolmen.dummy matches 2 unless items entity @s weapon.mainhand * loot replace entity @s weapon.mainhand loot smolmen:explore_leader_horn
+    if score #horn smolmen.dummy matches 3 if items entity @s weapon.mainhand * loot give @s loot smolmen:mine_leader_horn
+    if score #horn smolmen.dummy matches 3 unless items entity @s weapon.mainhand * loot replace entity @s weapon.mainhand loot smolmen:mine_leader_horn
+    if score #horn smolmen.dummy matches 4 if items entity @s weapon.mainhand * loot give @s loot smolmen:attack_leader_horn
+    if score #horn smolmen.dummy matches 4 unless items entity @s weapon.mainhand * loot replace entity @s weapon.mainhand loot smolmen:attack_leader_horn
+
+    scoreboard players reset @s smolmen.drop_horn
+
+# horn cooldown
+execute if score @s smolmen.drill_cooldown matches 1.. run scoreboard players remove @s smolmen.drill_cooldown 1

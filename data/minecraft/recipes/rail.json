@@ -16,9 +16,9 @@
   ],
   "result": {
     "count": 32,
-    "item": "minecraft:rail",
+    "id": "minecraft:rail",
     "components": {
-      "minecraft:max_stack_size": 32
+      "minecraft:max_stack_size": 64
     }
   },
   "show_notification": true
