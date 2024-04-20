@@ -23,6 +23,8 @@ def pick_leader(team: str):
     attribute @s minecraft:generic.scale base set 0.54
 
     raw attribute @s minecraft:generic.attack_damage modifier add 1234-0-0-0-1 "smolDamage" -0.33 add_multiplied_total
+
+    loot give @s loot smolmen:attack_leader_horn
     
     store result score #cmd smolmen.dummy data get entity @s Inventory[{Slot: 103b}].components."minecraft:custom_model_data"
     scoreboard players add #cmd smolmen.dummy 2
