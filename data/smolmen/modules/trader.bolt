@@ -65,7 +65,10 @@ function ~/randomize_offers:
         if score #rand smolmen.dummy matches i data modify storage smolmen:temp trades append value {
             sell: {
                 id: CROP_OFFERS[i],
-                count: 1
+                count: 1,
+                components: {
+                    "minecraft:max_stack_size": 16
+                }
             },
             buy: {
                 id: "minecraft:emerald",
@@ -81,7 +84,11 @@ function ~/randomize_offers:
         if score #rand smolmen.dummy matches i data modify storage smolmen:temp trades append value {
             sell: {
                 id: PLANT_OFFERS[i],
-                count: 1
+                count: 1,
+                components: {
+                    "minecraft:max_stack_size": 16
+                }
+
             },
             buy: {
                 id: "minecraft:emerald",
@@ -97,13 +104,16 @@ function ~/randomize_offers:
         if score #rand smolmen.dummy matches i data modify storage smolmen:temp trades append value {
             sell: {
                 id: BLOCK_OFFERS[i],
-                count: 1
+                count: 1,
+                components: {
+                    "minecraft:max_stack_size": 16
+                }
             },
             buy: {
                 id: "minecraft:emerald",
                 count: 2
             },
-            maxUses: 64444
+            maxUses: 64
         }
     store result storage smolmen:temp trades[-1].buy.count int 1 random value 1..3
     store result storage smolmen:temp trades[-1].sell.count int 1 random value 1..4

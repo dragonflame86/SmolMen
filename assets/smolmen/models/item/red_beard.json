@@ -1,0 +1,6 @@
+{
+    "parent": "smolmen:item/beard",
+    "textures": {
+        "0": "smolmen:item/red_beard"
+    }
+}

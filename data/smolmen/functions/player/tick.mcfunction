@@ -28,5 +28,5 @@ clear @s[team=blue] filled_map[custom_data~{team: "red"}]
 execute if entity @s[gamemode=survival,tag=!smolmen.op,y=128,dy=1] kill @s 
 
 execute if score @s smolmen.drop matches 1.. function ~/return_map:
-    anchored eyes positioned ^ ^ ^ as @e[type=item,distance=..2] if items entity @s contents filled_map[custom_data~{team_map:1b}] data merge entity @s {PickupDelay:0s, Motion: [0,0,0]}
+    anchored eyes positioned ^ ^ ^ as @e[type=item,distance=..2] if items entity @s contents filled_map[custom_data~{team_item:1b}] data merge entity @s {PickupDelay:0s, Motion: [0,0,0], Tags:["smolmen.checked"]}
     scoreboard players reset @s smolmen.drop

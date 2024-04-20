@@ -31,7 +31,7 @@ execute as @e[type=item,tag=!smolmen.checked] function ./check_items
 append function ./check_items:
     tag @s add smolmen.checked
 
-    if items entity @s contents filled_map[custom_data~{team_map:1b}] kill @s
+    if items entity @s contents *[custom_data~{team_item:1b}] kill @s
 
 # Reduce Arrow Damage
 execute as @e[type=#minecraft:arrows,tag=!smolmen.checked] function ./nerf_arrows
