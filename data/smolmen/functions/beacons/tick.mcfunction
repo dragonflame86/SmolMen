@@ -29,6 +29,10 @@ execute if entity @s[tag=!smolmen.regenerating] unless block ~ ~ ~ minecraft:bea
 execute if entity @s[tag=smolmen.regenerating] run function smolmen:beacons/regeneration
 execute if entity @s[tag=smolmen.invulnerable] run function smolmen:beacons/invulnerable
 
+# set health display
+execute if entity @s[tag=smolmen.red_beacon] store result bossbar smolmen:red_beacon value run scoreboard players get @s smolmen.dummy
+execute if entity @s[tag=smolmen.blue_beacon] store result bossbar smolmen:blue_beacon value run scoreboard players get @s smolmen.dummy
+
 # protection
 execute if entity @s[tag=smolmen.red_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 0 positioned ~-15 -64 ~-15 run tag @a[team=blue,dx=30,dz=30,dy=400] add smolmen.restricted
 execute if entity @s[tag=smolmen.red_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 1 positioned ~-20 -64 ~-20 run tag @a[team=blue,dx=40,dz=40,dy=400] add smolmen.restricted
