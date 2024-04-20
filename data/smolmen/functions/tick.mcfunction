@@ -29,3 +29,9 @@ execute as @e[type=player,scores={smolmen.death=1..}] run function smolmen:playe
 execute as @e[type=item,tag=!smolmen.checked] function ./check_items
 append function ./check_items:
     tag @s add smolmen.checked
+
+# Reduce Arrow Damage
+execute as @e[type=#minecraft:arrows,tag=!smolmen.checked] function ./nerf_arrows
+append function ./nerf_arrows:
+    execute store result entity @s damage double 0.5 run data get entity @s damage
+    tag @s add smolmen.checked
