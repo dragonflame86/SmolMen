@@ -40,3 +40,30 @@ execute as @e[type=#minecraft:arrows,tag=!smolmen.checked] function ./nerf_arrow
 append function ./nerf_arrows:
     execute store result entity @s damage double 0.5 run data get entity @s damage
     tag @s add smolmen.checked
+
+# Scoreboard Display
+data modify storage smolmen:temp obj set value {display: "red_beacon_kills", value: 0}
+execute store result storage smolmen:temp obj.value int 1 run scoreboard players get #red_beacon_kills smolmen.dummy
+function smolmen:m.set_scoreboard_value with storage smolmen:temp obj
+
+data modify storage smolmen:temp obj set value {display: "red_player_kills", value: 0}
+execute store result storage smolmen:temp obj.value int 1 run scoreboard players get #red_player_kills smolmen.dummy
+function smolmen:m.set_scoreboard_value with storage smolmen:temp obj
+
+data modify storage smolmen:temp obj set value {display: "red_leader_deaths", value: 0}
+execute store result storage smolmen:temp obj.value int 1 run scoreboard players get #red_leader_deaths smolmen.dummy
+function smolmen:m.set_scoreboard_value with storage smolmen:temp obj
+
+
+data modify storage smolmen:temp obj set value {display: "blue_beacon_kills", value: 0}
+execute store result storage smolmen:temp obj.value int 1 run scoreboard players get #blue_beacon_kills smolmen.dummy
+function smolmen:m.set_scoreboard_value with storage smolmen:temp obj
+
+data modify storage smolmen:temp obj set value {display: "blue_player_kills", value: 0}
+execute store result storage smolmen:temp obj.value int 1 run scoreboard players get #blue_player_kills smolmen.dummy
+function smolmen:m.set_scoreboard_value with storage smolmen:temp obj
+
+data modify storage smolmen:temp obj set value {display: "blue_leader_deaths", value: 0}
+execute store result storage smolmen:temp obj.value int 1 run scoreboard players get #blue_leader_deaths smolmen.dummy
+function smolmen:m.set_scoreboard_value with storage smolmen:temp obj
+

@@ -25,6 +25,8 @@ def pick_leader(team: str):
     raw attribute @s minecraft:generic.attack_damage modifier add 1234-0-0-0-1 "smolDamage" -0.33 add_multiplied_total
 
     loot give @s loot smolmen:attack_leader_horn
+    execute if entity @s[team=red] run scoreboard players add #red_leader_deaths smolmen.dummy 1
+    execute if entity @s[team=blue] run scoreboard players add #blue_leader_deaths smolmen.dummy 1
     
     store result score #cmd smolmen.dummy data get entity @s Inventory[{Slot: 103b}].components."minecraft:custom_model_data"
     scoreboard players add #cmd smolmen.dummy 2

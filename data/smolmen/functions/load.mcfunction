@@ -11,17 +11,22 @@ scoreboard objectives add smolmen.death deathCount {"text":"Deaths"}
 
 scoreboard objectives add smolmen.dummy dummy
 scoreboard objectives add smolmen.const dummy
+scoreboard objectives add smolmen.display dummy {"text":"Smolmen Game", "color":"gold"}
 
 scoreboard objectives add smolmen.team trigger
 scoreboard objectives add smolmen.id dummy
 
 scoreboard objectives setdisplay below_name smolmen.health
 scoreboard objectives setdisplay list smolmen.death
+scoreboard objectives setdisplay sidebar smolmen.display
 
 scoreboard objectives add smolmen.drill_cooldown dummy
 
 scoreboard objectives add smolmen.drop_map minecraft.dropped:minecraft.filled_map
 scoreboard objectives add smolmen.drop_horn minecraft.dropped:minecraft.goat_horn
+
+scoreboard objectives add smolmen.kill_red teamkill.red
+scoreboard objectives add smolmen.kill_blue teamkill.blue
 
 # init teams
 team add red {"text": "Red", "color": "red"}
@@ -56,6 +61,42 @@ for i in range(2, 10, 1):
 for i in range(10, 101, 10):
     scoreboard players set f"#{i}" smolmen.const i
 
+# init stats
+scoreboard players add #red_beacon_kills smolmen.dummy 0
+scoreboard players add #red_player_kills smolmen.dummy 0
+scoreboard players add #red_leader_deaths smolmen.dummy 0
+scoreboard players add #blue_beacon_kills smolmen.dummy 0
+scoreboard players add #blue_player_kills smolmen.dummy 0
+scoreboard players add #blue_leader_deaths smolmen.dummy 0
+
+#scoreboard players set red_beacon smolmen.display 10
+#scoreboard players display name red_beacon smolmen.display {"text":"Red Beacon Status: "}
+
+scoreboard players set red_beacon_kills smolmen.display 9
+scoreboard players display name red_beacon_kills smolmen.display {"text":"Red Beacon Kills"}
+
+scoreboard players set red_player_kills smolmen.display 8
+scoreboard players display name red_player_kills smolmen.display {"text":"Red Team Kills"}
+
+scoreboard players set red_leader_deaths smolmen.display 7
+scoreboard players display name red_leader_deaths smolmen.display {"text":"Red Leader Deaths"}
+
+scoreboard players set break smolmen.display 6
+scoreboard players display name break smolmen.display {"text":"=================", "color":"gray"}
+scoreboard players display numberformat break smolmen.display blank
+
+#scoreboard players set blue_beacon smolmen.display 5
+#scoreboard players display name blue_beacon smolmen.display {"text":"Blue Beacon Status: "}
+
+scoreboard players set blue_beacon_kills smolmen.display 4
+scoreboard players display name blue_beacon_kills smolmen.display {"text":"Blue Beacon Kills"}
+
+scoreboard players set blue_player_kills smolmen.display 3
+scoreboard players display name blue_player_kills smolmen.display {"text":"Blue Team Kills"}
+
+scoreboard players set blue_leader_deaths smolmen.display 2
+scoreboard players display name blue_leader_deaths smolmen.display {"text":"Blue Leader Deaths"}
+
 # mark world spawn
 execute summon marker function ~/get_world_spawn:
     data modify storage smolmen:temp pos set from entity @s Pos
@@ -68,7 +109,6 @@ execute summon marker function ~/get_world_spawn:
     kill @s
 
 tellraw @a [{"text":"[Smol Men] ", "bold": true, "color": "gold"},{"text":"loaded.", "bold": false, "color": "white"}]
-
 
 # configure gamerules
 gamerule reducedDebugInfo true
