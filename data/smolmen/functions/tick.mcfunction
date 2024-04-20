@@ -6,6 +6,9 @@ execute if score #timer.20 smolmen.dummy matches 20.. run scoreboard players set
 scoreboard players add #timer.100 smolmen.dummy 1
 execute if score #timer.100 smolmen.dummy matches 100.. run scoreboard players set #timer.100 smolmen.dummy 0
 
+scoreboard players add #timer.6000 smolmen.dummy 1
+execute if score #timer.6000 smolmen.dummy matches 6000.. run scoreboard players set #timer.6000 smolmen.dummy 0
+
 # Remove gm take from players so beacons & sites can add it back
 tag @a remove smolmen.restricted
 

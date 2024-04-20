@@ -9,6 +9,10 @@ execute if score @s smolmen.id matches 2 run scoreboard players set #max_health 
 execute if score @s smolmen.id matches 3 run scoreboard players set #max_health smolmen.dummy 100
 execute if score @s smolmen.id matches 4 run scoreboard players set #max_health smolmen.dummy 120
 
+# heal
+execute if score @s smolmen.dummy < #max_health smolmen.dummy if score #timer.6000 smolmen.dummy matches 0 run scoreboard players operation @s smolmen.dummy += @s smolmen.id
+
+# reduce health if over max
 execute if score @s smolmen.dummy > #max_health smolmen.dummy run scoreboard players remove @s smolmen.health 1
 
 execute if entity @s[tag=smolmen.red_beacon] store result bossbar smolmen:red_beacon max run scoreboard players get #max_health smolmen.dummy
@@ -41,3 +45,6 @@ execute if entity @s[tag=smolmen.blue_beacon,tag=!smolmen.regenerating] if score
 # glass
 execute if entity @s[tag=smolmen.red_beacon] run setblock ~ ~1 ~ minecraft:red_stained_glass
 execute if entity @s[tag=smolmen.blue_beacon] run setblock ~ ~1 ~ minecraft:blue_stained_glass
+
+# clear beacon beam
+execute if score #timer.20 smolmen.dummy matches 0 positioned ~ ~2 ~ run function smolmen:beacons/clear_beam

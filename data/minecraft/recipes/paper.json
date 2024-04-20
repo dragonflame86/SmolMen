@@ -13,32 +13,38 @@
         "count": 3,
         "id": "minecraft:paper",
         "components": {
-            "minecraft:attribute_modifiers": [
-                {
-                    "type": "minecraft:generic.safe_fall_distance",
-                    "uuid": [1065030253, -2003087859, -2017223278, -353305576],
-                    "name": "smolAttackSpeed",
-                    "amount": 10,
-                    "operation": "add_value",
-                    "slot": "hand"
-                },
-                {
-                    "type": "minecraft:generic.gravity",
-                    "uuid": [-858130892, 1729580144, -1606532214, 1961451218],
-                    "name": "smolAttack",
-                    "amount": -0.8,
-                    "operation": "add_multiplied_total",
-                    "slot": "hand"
-                },
-                {
-                    "type": "minecraft:generic.jump_strength",
-                    "uuid": [-650448777, 1642546611, -1942448316, 1490442521],
-                    "name": "smolAttack",
-                    "amount": -0.6,
-                    "operation": "add_multiplied_total",
-                    "slot": "hand"
-                }
-            ]
+            "minecraft:lore": [
+                "{\"color\":\"gray\",\"italic\":false,\"translate\":\"item.smolmen.parachute\"}"
+            ],
+            "minecraft:attribute_modifiers": {
+                "show_in_tooltip": false,
+                "modifiers": [
+                    {
+                        "type": "minecraft:generic.safe_fall_distance",
+                        "uuid": [1065030253, -2003087859, -2017223278, -353305576],
+                        "name": "smolAttackSpeed",
+                        "amount": 10,
+                        "operation": "add_value",
+                        "slot": "hand"
+                    },
+                    {
+                        "type": "minecraft:generic.gravity",
+                        "uuid": [-858130892, 1729580144, -1606532214, 1961451218],
+                        "name": "smolAttack",
+                        "amount": -0.8,
+                        "operation": "add_multiplied_total",
+                        "slot": "hand"
+                    },
+                    {
+                        "type": "minecraft:generic.jump_strength",
+                        "uuid": [-650448777, 1642546611, -1942448316, 1490442521],
+                        "name": "smolAttack",
+                        "amount": -0.5,
+                        "operation": "add_multiplied_total",
+                        "slot": "hand"
+                    }
+                ]
+            }
         }
     }
 }
