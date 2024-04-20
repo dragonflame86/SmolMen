@@ -20,6 +20,8 @@ scoreboard objectives setdisplay list smolmen.death
 
 scoreboard objectives add smolmen.drill_cooldown dummy
 
+scoreboard objectives add smolmen.drop minecraft.custom:minecraft.drop 
+
 # init teams
 team add red {"text": "Red", "color": "red"}
 team modify red color red

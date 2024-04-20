@@ -21,4 +21,12 @@ execute if entity @s[team=blue,tag=smolmen.dead] unless entity @e[tag=smolmen.bl
 # remove gui items from inv
 execute if items entity @s container.* cobblestone[custom_data~{gui:1b}] clear @s *[custom_data~{gui:1b}]
 
+# remove opposite team maps from inv
+clear @s[team=red] filled_map[custom_data~{team: "blue"}]
+clear @s[team=blue] filled_map[custom_data~{team: "red"}]
+
 execute if entity @s[gamemode=survival,tag=!smolmen.op,y=128,dy=1] kill @s 
+
+execute if score @s smolmen.drop matches 1.. function ~/return_map:
+    anchored eyes positioned ^ ^ ^ as @e[type=item,distance=..2] if items entity @s contents filled_map[custom_data~{team_map:1b}] data merge entity @s {PickupDelay:0s, Motion: [0,0,0]}
+    scoreboard players reset @s smolmen.drop
