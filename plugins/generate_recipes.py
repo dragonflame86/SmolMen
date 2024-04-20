@@ -14,22 +14,22 @@ def beet_default(ctx: Context):
            .mount("data/minecraft/recipes")
     )
 
-    with ctx.generate.draft() as draft:
-        draft.cache("recipes", " ", zipped=True)
+    # with ctx.generate.draft() as draft:
+        # draft.cache("recipes", len(minecraft.data.recipes), zipped=True)
 
-        for [id, recipe] in minecraft.data.recipes.items():
+    for [id, recipe] in minecraft.data.recipes.items():
+        print(id)
+        if "result" not in recipe.data:
+            continue
 
-            if "result" not in recipe.data:
-                continue
+        result: dict = recipe.data["result"]
+        if "id" not in result:
+            continue
 
-            result: dict = recipe.data["result"]
-            if "id" not in result:
-                continue
-
-            item = result["id"].split(':')[-1]
-            components: list[dict] = default_components[item]
-            
-            for component in components:
-                if component["type"].endswith("max_stack_size") and component["value"] == 64:
-                    result.setdefault("components", {})["minecraft:max_stack_size"] = 16
-                    ctx.data[id] = Recipe(recipe.data)
+        item = result["id"].split(':')[-1]
+        components: list[dict] = default_components[item]
+        
+        for component in components:
+            if component["type"].endswith("max_stack_size") and component["value"] == 64:
+                result.setdefault("components", {})["minecraft:max_stack_size"] = 16
+                ctx.data[id] = Recipe(recipe.data)

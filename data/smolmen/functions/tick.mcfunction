@@ -33,6 +33,7 @@ append function ./check_items:
     tag @s add smolmen.checked
 
     if items entity @s contents minecraft:filled_map[minecraft:custom_data~{team_item:1b}] kill @s
+    if items entity @s contents minecraft:barrel[minecraft:custom_data~{team_item:1b}] kill @s
     if items entity @s contents minecraft:goat_horn[minecraft:custom_data~{smolmen:{leader_horn:1b}}] kill @s
 
 # Reduce Arrow Damage

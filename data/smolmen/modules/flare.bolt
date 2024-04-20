@@ -22,6 +22,6 @@ function ~/tick:
 append function ./tick:
     as @e[type=armor_stand, tag=smolmen.flare] at @s function ./flare/tick
 
-append function ./wfoas:
+append function ./player/wfoas:
     raw execute if items entity @s weapon.mainhand warped_fungus_on_a_stick[custom_data~{smithed:{id:"smolmen:flare"}}] run function smolmen:flare/throw {slot: "mainhand"}
     raw execute unless items entity @s weapon.mainhand warped_fungus_on_a_stick if items entity @s weapon.offhand warped_fungus_on_a_stick[custom_data~{smithed:{id:"smolmen:flare"}}] run function smolmen:flare/throw {slot: "offhand"}
