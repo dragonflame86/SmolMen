@@ -36,7 +36,15 @@ def beet_default(ctx: Context):
         draft.cache("scaled_modls", str("".join(tools)), zipped=True)
         for tool in tools:
             tool_id = tool.split(':')[1] 
-            model = minecraft.assets.models["minecraft:item/" + tool_id].data
+            
+            model_path = "minecraft:item/" + tool_id
+
+            if model_path in ctx.assets.models:
+                model = ctx.assets.models[model_path].data
+            else:
+                model = minecraft.assets.models[model_path].data
+            
+
 
             model.setdefault("overrides", []).append(
                 {
@@ -46,6 +54,11 @@ def beet_default(ctx: Context):
                     "model": "smolmen:item/" + tool_id
                 }
             )
+
+            def key(override):
+                return override["predicate"].setdefault("custom_model_data", 0)
+
+            model["overrides"] = sorted(model["overrides"], key=key)
 
             draft.assets["minecraft:item/" + tool_id] = Model(model)
 

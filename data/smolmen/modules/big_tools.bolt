@@ -67,7 +67,7 @@ function ~/trigger:
     slots = 36
     memo slots:
       for i in range(slots):
-          raw (f"execute if items entity @s container.{i} #smolmen:tools run item modify entity @s container.{i} smolmen:technical/enlarge_tool") 
+          raw (f"execute if items entity @s container.{i} #smolmen:tools unless items entity @s container.{i} *[custom_data~{{combatplus:{{}}}}] run item modify entity @s container.{i} smolmen:technical/enlarge_tool") 
 
 
 function ~/reset_item:
@@ -87,7 +87,7 @@ function ~/remove_debuffs:
     tag @s remove smolmen.debuffed
 
 append function ./check_items:
-    raw execute if items entity @s contents #smolmen:tools run function smolmen:big_tools/reset_item
+    if items entity @s contents #smolmen:tools unless items entity @s contents *[custom_data~{combatplus:{}}] run function smolmen:big_tools/reset_item
 
 append function ./tick:
     as @a[predicate=smolmen:technical/holding_tool,tag=!smolmen.debuffed] function ./big_tools/apply_debuffs

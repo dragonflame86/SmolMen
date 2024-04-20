@@ -20,3 +20,5 @@ execute if entity @s[team=blue,tag=smolmen.dead] unless entity @e[tag=smolmen.bl
 
 # remove gui items from inv
 execute if items entity @s container.* cobblestone[custom_data~{gui:1b}] clear @s *[custom_data~{gui:1b}]
+
+execute if entity @s[gamemode=survival,tag=!smolmen.op,y=128,dy=1] kill @s 

@@ -6,7 +6,7 @@
   "filter": {
     "block": [
       {
-        "path": ".+_bed"
+        "path": "recipes/.+_bed"
       }
     ]
   }

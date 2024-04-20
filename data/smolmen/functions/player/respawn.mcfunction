@@ -10,4 +10,4 @@ scoreboard players set @s smolmen.death 0
 
 execute if entity @s[team=red] if entity @e[tag=smolmen.red_beacon,tag=smolmen.regenerating] run tag @s add smolmen.dead
 execute if entity @s[team=blue] if entity @e[tag=smolmen.blue_beacon,tag=smolmen.regenerating] run tag @s add smolmen.dead
-execute if entity @s[tag=smolmen.dead] run gamemode spectator @s
+execute if entity @s[tag=smolmen.dead] return run gamemode spectator @s

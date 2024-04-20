@@ -159,7 +159,7 @@ append function ~/reset_spawn:
     tag @s remove smolmen.bed.spawn_point
     
 
-append function ./respawn:
+append function ./player/respawn:
     if entity @s[tag=smolmen.bed.spawn_point] at @s unless entity @e[type=item_display,tag=smolmen.bed,distance=..0.25] function ./bed/reset_spawn with storage smolmen:const world_spawn
 
 append function ./player/wfoas:

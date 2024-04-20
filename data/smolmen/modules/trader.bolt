@@ -114,5 +114,17 @@ function ~/update_all:
     function ~/../randomize_offers
     as @e[tag=smolmen.trader] on passengers data modify entity @s Offers.Recipes set from storage smolmen:temp trades
 
+function ~/tick:
+    tag @a[distance=..12] add smolmen.restricted
+    as @e[type=creeper, distance=..16, tag=!smolmen.restricted] function ./trader/restrict_creepers:
+        data merge entity @s {ExplosionRadius: 0}
+        tag @s add smolmen.restricted
+
+    kill @e[type=tnt, distance=..16, nbt={fuse: 1s}] 
+    kill @e[type=item_display,tag=combatplus.arc_star, distance=..12]
+
+
 append function ./tick:
-   if predicate smolmen:trader/is_noon function ./trader/update_all
+    if predicate smolmen:trader/is_noon function ./trader/update_all
+    
+   

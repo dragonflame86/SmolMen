@@ -10,7 +10,7 @@ append item_tag ~/fuel {
 } 
 
 function ~/tick:
-    tag @a[distance=..12] add smolmen.restricted
+    tag @a[distance=..14] add smolmen.restricted
     unless items block ~ ~3 ~ container.0 * item replace block ~ ~3 ~ container.0 with cobblestone[hide_tooltip={},custom_model_data=1,custom_data={gui:1b}] 
     item replace block ~ ~3 ~ container.2 with air
 
@@ -20,6 +20,13 @@ function ~/tick:
     if entity @s[tag=smolmen.running] unless score #burnTime smolmen.dummy matches 1.. function ~/../reset
 
     if entity @s[tag=smolmen.running] function ~/../run
+
+    as @e[type=creeper, distance=..18, tag=!smolmen.restricted] function ~/../restrict_creepers:
+        data merge entity @s {ExplosionRadius: 0}
+        tag @s add smolmen.restricted
+
+    kill @e[type=tnt, distance=..18, nbt={fuse: 1s}] 
+    kill @e[type=item_display,tag=combatplus.arc_star, distance=..14]
 
 function ~/reset:
     tag @s remove smolmen.running
@@ -57,7 +64,7 @@ function ~/spawn:
         }
 
     setblock ~ 128 ~ yellow_shulker_box[facing=north]{Items:[{id:"minecraft:stone",count:1}],CustomName:'{"text":"Drill Loot"}'}
-    setblock ~ 129 ~ barrel{Items:[{id:"minecraft:stone",count:60}],CustomName: '{"text": "Drill Timer, 1 item = 1 tick"}'} 
+    setblock ~ 129 ~ barrel{Items:[{id:"minecraft:stone",count:60}],CustomName: '{"text": "Drill Timer, 1 item = 1 second"}'} 
 
     setblock ~ ~ ~ minecraft:structure_block[mode=load]{mode:"LOAD",name:"minecraft:drill",posX:-8,posY:-1,posZ:-8,powered:0b,rotation:"NONE",sizeX:17,sizeY:7,sizeZ:17}
 
@@ -73,9 +80,12 @@ function ~/spawn:
     $function smolmen:drill/spawn/$(facing)
 
     setblock ~ ~1 ~ redstone_block
+    
+    forceload add ~ ~
 
 function ~/1_second:
     store result score @s smolmen.drill_cooldown if items block ~ 129 ~ container.* * 
+    scoreboard players operation @s smolmen.drill_cooldown *= #20 smolmen.const
 
     unless items block ~ ~1 ~ container.* * setblock ~ ~-2 ~ redstone_torch
     if items block ~ ~1 ~ container.* * setblock ~ ~-2 ~ air
