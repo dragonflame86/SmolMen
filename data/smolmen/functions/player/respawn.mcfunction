@@ -5,7 +5,7 @@ execute function ./set_attributes:
     attribute @s minecraft:generic.movement_speed base set 0.075
     attribute @s minecraft:generic.jump_strength base set 0.37
 
-    raw attribute @s minecraft:generic.attack_damage modifier add 1234-0-0-0-1 "smolDamage" -0.5 add_multiplied_total
+    raw attribute @s minecraft:generic.attack_damage modifier add 1234-0-0-0-1 "smolDamage" -0.25 add_multiplied_total
 
 
 execute if entity @s[team=red] if entity @e[tag=smolmen.red_beacon,tag=smolmen.regenerating] run tag @s add smolmen.dead

@@ -9,12 +9,17 @@ prepend function ./tick:
     unless data storage smolmen:const leaders.red as @r[team=red] function ./team/pick_red_leader
     unless data storage smolmen:const leaders.blue as @r[team=blue] function ./team/pick_blue_leader
 
-    if data storage smolmen:const leaders.red if entity @a[limit=1, team=red] function ./team/check_red_leader with storage smolmen:const leaders
-    if data storage smolmen:const leaders.blue if entity @a[limit=1, team=blue] function ./team/check_blue_leader with storage smolmen:const leaders
+    if data storage smolmen:const leaders.red if entity @a[limit=1, team=red] function ./team/check_red_leader with storage smolmen:const leaders.red
+    if data storage smolmen:const leaders.blue if entity @a[limit=1, team=blue] function ./team/check_blue_leader with storage smolmen:const leaders.blue
 
 def pick_leader(team: str):
     as @a[team=team,tag=smolmen.leader] function ~/../reset
-    data modify storage smolmen:const (f"leaders.{team}") set from entity @s UUID
+    data modify storage smolmen:const (f"leaders.{team}.uuid") set from entity @s UUID
+    execute summon text_display ~/get_name:
+        data merge entity @s {text: f'{{"selector": "@p[team={team}]" }}'}
+        data modify storage smolmen:const (f"leaders.{team}.name") set from entity @s text
+        kill @s
+
     tag @s add smolmen.leader
     tellraw @a ["", {"selector": "@s"}, " is now the leader of the ", {"text": (team[0].upper() + team[1:]), "color": team}, " team"]
 
@@ -22,7 +27,7 @@ def pick_leader(team: str):
 
     attribute @s minecraft:generic.scale base set 0.54
 
-    raw attribute @s minecraft:generic.attack_damage modifier add 1234-0-0-0-1 "smolDamage" -0.33 add_multiplied_total
+    raw attribute @s minecraft:generic.attack_damage modifier add 1234-0-0-0-1 "smolDamage" 0 add_multiplied_total
 
     loot give @s loot smolmen:attack_leader_horn
 
@@ -50,10 +55,10 @@ function ~/pick_blue_leader:
     pick_leader("blue")
 
 function ~/check_red_leader:
-    $execute unless entity @a[nbt={UUID: $(red)},limit=1] as @r[team=red, gamemode=!spectator] run function smolmen:team/pick_red_leader
+    $execute unless entity @a[nbt={UUID: $(uuid)},limit=1] as @r[team=red, gamemode=!spectator] run function smolmen:team/pick_red_leader
 
 function ~/check_blue_leader:
-    $execute unless entity @a[nbt={UUID: $(blue)},limit=1] as @r[team=blue, gamemode=!spectator] run function smolmen:team/pick_blue_leader
+    $execute unless entity @a[nbt={UUID: $(uuid)},limit=1] as @r[team=blue, gamemode=!spectator] run function smolmen:team/pick_blue_leader
 
 function ~/reset:
     tag @s remove smolmen.leader
