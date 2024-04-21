@@ -69,32 +69,38 @@ scoreboard players add #blue_beacon_kills smolmen.dummy 0
 scoreboard players add #blue_player_kills smolmen.dummy 0
 scoreboard players add #blue_leader_deaths smolmen.dummy 0
 
-#scoreboard players set red_beacon smolmen.display 10
-#scoreboard players display name red_beacon smolmen.display {"text":"Red Beacon Status: "}
+scoreboard players set red_leader smolmen.display 10
+scoreboard players display name red_leader smolmen.display {"text":"Red Leader "}
 
-scoreboard players set red_beacon_kills smolmen.display 9
+scoreboard players set red_beacon smolmen.display 9
+scoreboard players display name red_beacon smolmen.display {"text":"Red Beacon Status "}
+
+scoreboard players set red_beacon_kills smolmen.display 8
 scoreboard players display name red_beacon_kills smolmen.display {"text":"Red Beacon Kills"}
 
-scoreboard players set red_player_kills smolmen.display 8
+scoreboard players set red_player_kills smolmen.display 7
 scoreboard players display name red_player_kills smolmen.display {"text":"Red Team Kills"}
 
-scoreboard players set red_leader_deaths smolmen.display 7
+scoreboard players set red_leader_deaths smolmen.display 6
 scoreboard players display name red_leader_deaths smolmen.display {"text":"Red Leader Deaths"}
 
-scoreboard players set break smolmen.display 6
+scoreboard players set break smolmen.display 5
 scoreboard players display name break smolmen.display {"text":"=================", "color":"gray"}
 scoreboard players display numberformat break smolmen.display blank
 
-#scoreboard players set blue_beacon smolmen.display 5
-#scoreboard players display name blue_beacon smolmen.display {"text":"Blue Beacon Status: "}
+scoreboard players set blue_leader smolmen.display 4
+scoreboard players display name blue_leader smolmen.display {"text":"Blue Leader "}
 
-scoreboard players set blue_beacon_kills smolmen.display 4
+scoreboard players set blue_beacon smolmen.display 3
+scoreboard players display name blue_beacon smolmen.display {"text":"Blue Beacon Status "}
+
+scoreboard players set blue_beacon_kills smolmen.display 2
 scoreboard players display name blue_beacon_kills smolmen.display {"text":"Blue Beacon Kills"}
 
-scoreboard players set blue_player_kills smolmen.display 3
+scoreboard players set blue_player_kills smolmen.display 1
 scoreboard players display name blue_player_kills smolmen.display {"text":"Blue Team Kills"}
 
-scoreboard players set blue_leader_deaths smolmen.display 2
+scoreboard players set blue_leader_deaths smolmen.display 0
 scoreboard players display name blue_leader_deaths smolmen.display {"text":"Blue Leader Deaths"}
 
 # mark world spawn

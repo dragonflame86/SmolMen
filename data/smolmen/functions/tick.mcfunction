@@ -44,27 +44,44 @@ append function ./nerf_arrows:
     tag @s add smolmen.checked
 
 # Scoreboard Display
-data modify storage smolmen:temp obj set value {display: "red_beacon_kills", value: 0}
+# red
+data modify storage smolmen:temp obj set value {display: "red_beacon", value: 0, "color": "red"}
+execute as a88e45ac-cfaf-45e4-85ca-05240c8b23b8 store result storage smolmen:temp obj.value int 1 run scoreboard players get @s smolmen.dummy
+execute as a88e45ac-cfaf-45e4-85ca-05240c8b23b8 if entity @s[tag=smolmen.regenerating] run data modify storage smolmen:temp obj set value {display: "red_beacon", value: "Regenerating", color: "green"}
+execute as a88e45ac-cfaf-45e4-85ca-05240c8b23b8 if entity @s[tag=smolmen.invulnerable] run data modify storage smolmen:temp obj set value {display: "red_beacon", value: "Invulnerable", color: "white"}
+function smolmen:m.set_scoreboard_value with storage smolmen:temp obj
+
+function smolmen:m.set_leader_red with storage smolmen:const leaders.red
+
+data modify storage smolmen:temp obj set value {display: "red_beacon_kills", value: 0, color: "red"}
 execute store result storage smolmen:temp obj.value int 1 run scoreboard players get #red_beacon_kills smolmen.dummy
 function smolmen:m.set_scoreboard_value with storage smolmen:temp obj
 
-data modify storage smolmen:temp obj set value {display: "red_player_kills", value: 0}
+data modify storage smolmen:temp obj set value {display: "red_player_kills", value: 0, color: "red"}
 execute store result storage smolmen:temp obj.value int 1 run scoreboard players get #red_player_kills smolmen.dummy
 function smolmen:m.set_scoreboard_value with storage smolmen:temp obj
 
-data modify storage smolmen:temp obj set value {display: "red_leader_deaths", value: 0}
+data modify storage smolmen:temp obj set value {display: "red_leader_deaths", value: 0, color: "red"}
 execute store result storage smolmen:temp obj.value int 1 run scoreboard players get #red_leader_deaths smolmen.dummy
 function smolmen:m.set_scoreboard_value with storage smolmen:temp obj
 
+# blue
+data modify storage smolmen:temp obj set value {display: "blue_beacon", value: 0, "color": "blue"}
+execute as 9e6899f4-114c-4cf5-8140-b5bac8423526 store result storage smolmen:temp obj.value int 1 run scoreboard players get @s smolmen.dummy
+execute as 9e6899f4-114c-4cf5-8140-b5bac8423526 if entity @s[tag=smolmen.regenerating] run data modify storage smolmen:temp obj set value {display: "blue_beacon", value: "Regenerating", color: "green"}
+execute as 9e6899f4-114c-4cf5-8140-b5bac8423526 if entity @s[tag=smolmen.invulnerable] run data modify storage smolmen:temp obj set value {display: "blue_beacon", value: "Invulnerable", color: "white"}
+function smolmen:m.set_scoreboard_value with storage smolmen:temp obj
 
-data modify storage smolmen:temp obj set value {display: "blue_beacon_kills", value: 0}
+function smolmen:m.set_leader_blue with storage smolmen:const leaders.blue
+
+data modify storage smolmen:temp obj set value {display: "blue_beacon_kills", value: 0, color: "blue"}
 execute store result storage smolmen:temp obj.value int 1 run scoreboard players get #blue_beacon_kills smolmen.dummy
 function smolmen:m.set_scoreboard_value with storage smolmen:temp obj
 
-data modify storage smolmen:temp obj set value {display: "blue_player_kills", value: 0}
+data modify storage smolmen:temp obj set value {display: "blue_player_kills", value: 0, color: "blue"}
 execute store result storage smolmen:temp obj.value int 1 run scoreboard players get #blue_player_kills smolmen.dummy
 function smolmen:m.set_scoreboard_value with storage smolmen:temp obj
 
-data modify storage smolmen:temp obj set value {display: "blue_leader_deaths", value: 0}
+data modify storage smolmen:temp obj set value {display: "blue_leader_deaths", value: 0, color: "blue"}
 execute store result storage smolmen:temp obj.value int 1 run scoreboard players get #blue_leader_deaths smolmen.dummy
 function smolmen:m.set_scoreboard_value with storage smolmen:temp obj
