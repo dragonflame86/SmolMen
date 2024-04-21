@@ -1,6 +1,7 @@
 #version 150
 
 #moj_import <fog.glsl>
+#moj_import <darkness.glsl>
 
 uniform sampler2D Sampler0;
 
@@ -19,8 +20,7 @@ out vec4 fragColor;
 void main() {
     vec4 texelColor = texture(Sampler0, texCoord0);
 
-
-    texelColor = mix(vec4(0,0,0,texelColor.a), texelColor, max(vertexColor.r - 0.1, 0));
+    texelColor = calculate_color(texelColor, vertexColor, true);
 
     vec4 color = texelColor * vertexColor * ColorModulator;
     if (color.a < 0.1) {
