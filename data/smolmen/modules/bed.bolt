@@ -78,8 +78,8 @@ function ~/interact:
                 unless entity @e[type=#smolmen:hostile,distance=..8] if predicate smolmen:can_sleep:
                     ride @p[tag=smolmen.source] mount @e[type=armor_stand,tag=smolmen.bed.ride,limit=1,distance=..0.1]
 
-            as @p[tag=smolmen.source,team=red] if entity @e[type=marker,tag=smolmen.blue_base,distance=..128] return run title @s actionbar "Too close to enemy base to set spawn."
-            as @p[tag=smolmen.source,team=blue] if entity @e[type=marker,tag=smolmen.red_base,distance=..128] return run title @s actionbar "Too close to enemy base to set spawn."
+            as @p[tag=smolmen.source,team=red] if entity @e[type=marker,tag=smolmen.blue_base,distance=..256] return run title @s actionbar "Too close to enemy base to set spawn."
+            as @p[tag=smolmen.source,team=blue] if entity @e[type=marker,tag=smolmen.red_base,distance=..256] return run title @s actionbar "Too close to enemy base to set spawn."
 
             store result score #x smolmen.dummy data get entity @p[tag=smolmen.source] SpawnX
             store result score #y smolmen.dummy data get entity @p[tag=smolmen.source] SpawnY

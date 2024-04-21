@@ -46,6 +46,16 @@ execute if entity @s[tag=smolmen.blue_beacon,tag=!smolmen.regenerating] if score
 execute if entity @s[tag=smolmen.blue_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 3 positioned ~-40 -64 ~-40 run tag @a[team=red,dx=80,dz=80,dy=400] add smolmen.restricted
 execute if entity @s[tag=smolmen.blue_beacon,tag=!smolmen.regenerating] if score @s smolmen.id matches 4 positioned ~-50 -64 ~-50 run tag @a[team=red,dx=100,dz=100,dy=400] add smolmen.restricted
 
+execute if entity @s[tag=smolmen.blue_beacon] unless entity @a[team=blue,limit=1] function ~/anti_raid
+execute if entity @s[tag=smolmen.red_beacon] unless entity @a[team=red,limit=1] function ~/anti_raid:
+    as @e[type=creeper, distance=..48, tag=!smolmen.restricted] function ~/../restrict_creepers:
+        data merge entity @s {ExplosionRadius: 0}
+        tag @s add smolmen.restricted
+
+    kill @e[type=tnt, distance=..48, nbt={fuse: 1s}] 
+    kill @e[type=item_display,tag=combatplus.arc_star, distance=..48]
+     
+
 # glass
 execute if entity @s[tag=smolmen.red_beacon] run setblock ~ ~1 ~ minecraft:red_stained_glass
 execute if entity @s[tag=smolmen.blue_beacon] run setblock ~ ~1 ~ minecraft:blue_stained_glass

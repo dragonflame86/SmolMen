@@ -28,7 +28,7 @@ def pick_leader(team: str):
 
     execute if entity @s[team=red] run scoreboard players add #red_leader_deaths smolmen.dummy 1
     execute if entity @s[team=blue] run scoreboard players add #blue_leader_deaths smolmen.dummy 1
-    
+
     store result score #cmd smolmen.dummy data get entity @s Inventory[{Slot: 103b}].components."minecraft:custom_model_data"
     scoreboard players add #cmd smolmen.dummy 2
     item modify entity @s armor.head {
@@ -50,10 +50,10 @@ function ~/pick_blue_leader:
     pick_leader("blue")
 
 function ~/check_red_leader:
-    $execute unless entity @a[nbt={UUID: $(red)},limit=1] as @r[team=red] run function smolmen:team/pick_red_leader
+    $execute unless entity @a[nbt={UUID: $(red)},limit=1] as @r[team=red, gamemode=!spectator] run function smolmen:team/pick_red_leader
 
 function ~/check_blue_leader:
-    $execute unless entity @a[nbt={UUID: $(blue)},limit=1] as @e[team=blue] run function smolmen:team/pick_blue_leader
+    $execute unless entity @a[nbt={UUID: $(blue)},limit=1] as @r[team=blue, gamemode=!spectator] run function smolmen:team/pick_blue_leader
 
 function ~/reset:
     tag @s remove smolmen.leader
@@ -68,18 +68,27 @@ function ~/blue_relog:
     $execute if entity @s[tag=smolmen.leader,nbt=!{UUID: $(blue)}] run function smolmen:team/reset 
 
 append function ./player/respawn:
-    if entity @s[tag=smolmen.leader,team=red] as @r[team=red] function ./team/pick_red_leader 
-    if entity @s[tag=smolmen.leader,team=blue] as @r[team=blue] function ./team/pick_blue_leader
+    if entity @s[tag=smolmen.leader,team=red] as @r[team=red, gamemode=!spectator] function ./team/pick_red_leader 
+    if entity @s[tag=smolmen.leader,team=blue] as @r[team=blue, gamemode=!spectator] function ./team/pick_blue_leader
 
 function ~/choose:
-    gamemode survival@s
+    gamemode survival @s
+
+    store result score #red_team smolmen.dummy team list red
+    store result score #blue_team smolmen.dummy team list blue
+
+    scoreboard players operation #diff smolmen.dummy = #red_team smolmen.dummy
+    scoreboard players operation #diff smolmen.dummy -= #blue_team smolmen.dummy
+
     if score @s smolmen.team matches 1 function ~/join_red:
+        if score #diff smolmen.dummy matches 2.. return run scoreboard players reset @s smolmen.team
         team join red
         tellraw @a ["", {"selector": "@s"},{"text": " has joined the "}, {"text": "Red", "color": "red"}, {"text": " team"}]
         tp @s @e[tag=smolmen.red_base,limit=1]
         at @s spawnpoint @s ~ ~ ~
     
     if score @s smolmen.team matches 2 function ~/joined_blue:
+        if score #diff smolmen.dummy matches ..-2 return run scoreboard players reset @s smolmen.team
         team join blue
         tellraw @a ["", {"selector": "@s"},{"text": " has joined the "}, {"text": "Blue", "color": "blue"}, {"text": " team"}]
         tp @s @e[tag=smolmen.blue_base,limit=1]
@@ -126,6 +135,9 @@ function ~/choose:
         ],
         {"text": ("┗" + "-" * 25), "color": "gray"},
     ]
+
+    if score #diff smolmen.dummy matches 2.. tellraw @s {"text": "Red team is full", "bold": true}
+    if score #diff smolmen.dummy matches ..-2 tellraw @s {"text": "Blue team is full", "bold": true}
 
 append function ./check_items:
     raw execute if items entity @s contents #banners[custom_data={leader:1b}] run kill @s

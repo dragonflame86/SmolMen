@@ -22,6 +22,12 @@ function ./give_team_items:
 
 
 if entity @s[scores={smolmen.death=1..},tag=smolmen.bed.spawn_point] at @s unless entity @e[type=item_display,tag=smolmen.bed,distance=..0.25] function ./bed/reset_spawn with storage smolmen:const world_spawn
+
+positioned ~ 129 ~ if entity @s[distance=..2,team=red] at @e[tag=smolmen.red_base] function ~/go_to_base
+positioned ~ 129 ~ if entity @s[distance=..2,team=blue] at @e[tag=smolmen.blue_base] function ~/go_to_base
+
+if entity @s[scores={smolmen.death=1..}] effect give @s resistance 4 2 true
+
 if entity @s[scores={smolmen.death=1..},tag=!smolmen.bed.spawn_point,team=red] at @e[tag=smolmen.red_base, limit=1] function ~/go_to_base 
 if entity @s[scores={smolmen.death=1..},tag=!smolmen.bed.spawn_point,team=blue] at @e[tag=smolmen.blue_base, limit=1] function ~/go_to_base:
     spawnpoint @s ~ ~ ~
