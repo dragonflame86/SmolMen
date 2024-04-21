@@ -18,10 +18,10 @@ execute if score #horn smolmen.dummy matches 2 if entity @s[team=red] run tellra
 execute if score #horn smolmen.dummy matches 3 if entity @s[team=red] run tellraw @a[team=red,distance=..64] {"translate":"text.smolmen.explore", "color":"gold"}
 execute if score #horn smolmen.dummy matches 4 if entity @s[team=red] run tellraw @a[team=red,distance=..64] {"translate":"text.smolmen.mine", "color":"gold"}
 
-execute if score #horn smolmen.dummy matches 1 if entity @s[team=red] run effect give @a[team=red,distance=..64] minecraft:strength 30 0
-execute if score #horn smolmen.dummy matches 2 if entity @s[team=red] run effect give @a[team=red,distance=..64] minecraft:resistance 30 1
-execute if score #horn smolmen.dummy matches 3 if entity @s[team=red] run effect give @a[team=red,distance=..64] minecraft:speed 60 0
-execute if score #horn smolmen.dummy matches 4 if entity @s[team=red] run effect give @a[team=red,distance=..64] minecraft:haste 30 0
+execute if score #horn smolmen.dummy matches 1 if entity @s[team=red] run effect give @a[team=red,distance=..64] minecraft:strength 15 0
+execute if score #horn smolmen.dummy matches 2 if entity @s[team=red] run effect give @a[team=red,distance=..64] minecraft:resistance 15 0
+execute if score #horn smolmen.dummy matches 3 if entity @s[team=red] run effect give @a[team=red,distance=..64] minecraft:speed 45 1
+execute if score #horn smolmen.dummy matches 4 if entity @s[team=red] run effect give @a[team=red,distance=..64] minecraft:haste 15 0
 
 # blue team
 execute if score #horn smolmen.dummy matches 1 if entity @s[team=blue] run tellraw @a[team=blue,distance=..64] {"translate":"text.smolmen.attack", "color":"gold"}
@@ -29,7 +29,7 @@ execute if score #horn smolmen.dummy matches 2 if entity @s[team=blue] run tellr
 execute if score #horn smolmen.dummy matches 3 if entity @s[team=blue] run tellraw @a[team=blue,distance=..64] {"translate":"text.smolmen.explore", "color":"gold"}
 execute if score #horn smolmen.dummy matches 4 if entity @s[team=blue] run tellraw @a[team=blue,distance=..64] {"translate":"text.smolmen.mine", "color":"gold"}
 
-execute if score #horn smolmen.dummy matches 1 if entity @s[team=blue] run effect give @a[team=blue,distance=..64] minecraft:strength 30 0
-execute if score #horn smolmen.dummy matches 2 if entity @s[team=blue] run effect give @a[team=blue,distance=..64] minecraft:resistance 30 1
-execute if score #horn smolmen.dummy matches 3 if entity @s[team=blue] run effect give @a[team=blue,distance=..64] minecraft:speed 60 0
-execute if score #horn smolmen.dummy matches 4 if entity @s[team=blue] run effect give @a[team=blue,distance=..64] minecraft:haste 30 0
+execute if score #horn smolmen.dummy matches 1 if entity @s[team=blue] run effect give @a[team=blue,distance=..64] minecraft:strength 15 0
+execute if score #horn smolmen.dummy matches 2 if entity @s[team=blue] run effect give @a[team=blue,distance=..64] minecraft:resistance 15 0
+execute if score #horn smolmen.dummy matches 3 if entity @s[team=blue] run effect give @a[team=blue,distance=..64] minecraft:speed 45 1
+execute if score #horn smolmen.dummy matches 4 if entity @s[team=blue] run effect give @a[team=blue,distance=..64] minecraft:haste 15 0
