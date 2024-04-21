@@ -15,7 +15,7 @@ prepend function ./tick:
 def pick_leader(team: str):
     as @a[team=team,tag=smolmen.leader] function ~/../reset
     data modify storage smolmen:const (f"leaders.{team}.uuid") set from entity @s UUID
-    execute summon text_display ~/get_name:
+    execute summon text_display function ~/get_name:
         data merge entity @s {text: f'{{"selector": "@p[team={team}]" }}'}
         data modify storage smolmen:const (f"leaders.{team}.name") set from entity @s text
         kill @s
