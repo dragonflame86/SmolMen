@@ -23,7 +23,8 @@ PLANT_OFFERS = [
     "minecraft:melon_seeds",
     "minecraft:wheat_seeds",
     "minecraft:pumpkin_seeds",
-    "minecraft:chorus_flower"
+    "minecraft:chorus_flower",
+    "minecraft:nether_wart"
 ]
 
 BLOCK_OFFERS = [
