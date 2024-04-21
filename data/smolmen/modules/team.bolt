@@ -88,6 +88,7 @@ function ~/choose:
         raw attribute @s minecraft:generic.movement_speed modifier remove 5-1-0-0-1 
         raw attribute @s minecraft:generic.jump_strength modifier remove 5-1-0-0-2 
         scoreboard players reset @s smolmen.team
+        recipe give @s *
 
 
 

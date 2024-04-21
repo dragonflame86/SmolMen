@@ -21,13 +21,13 @@
     },
     {
         "predicate": {
-            "custom_model_data": 3
+            "custom_model_data": 4
         },
         "model": "smolmen:item/red_crown_beard"
     },
     {
         "predicate": {
-            "custom_model_data": 4
+            "custom_model_data": 5
         },
         "model": "smolmen:item/blue_crown_beard"
     }

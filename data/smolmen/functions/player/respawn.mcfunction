@@ -17,5 +17,5 @@ execute if entity @s[team=blue] function ~/../give_team_items {map_id: 24, hat_c
 
 function ~/../give_team_items:
     clear @s *[custom_data~{team_item:1b}]
-    $give @s filled_map[map_id=$(map_id),custom_data={team_item:1b, team: "$(color)"},item_name='{"text": "$(team) Team Map","color": "$(color)"}', lore=['{"text": "You will respawn with this map.","color": "gray", "italic": false}'], hide_additional_tooltip={}, max_stack_size=1]
+    $give @s filled_map[map_id=$(map_id),custom_data={team_item:1b, team: "$(color)"},item_name='{"text": "$(team) Team Map","color": "$(color)"}', lore=['{"text": "You will respawn with this map.","color": "gray", "italic": false}'], hide_additional_tooltip={}, max_stack_size=1, can_place_on={blocks: ["minecraft:brown_banner", "minecraft:green_banner"]}]
     $item replace entity @s armor.head with barrel[custom_model_data=$(hat_cmd), custom_data={team_item:1b}, item_name='{"text": "$(team) Beard", "color": "$(color)"}', enchantments={"minecraft:binding_curse": 1}, enchantment_glint_override=false, hide_additional_tooltip={}]

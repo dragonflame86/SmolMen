@@ -48,6 +48,7 @@ function ~/run:
 function ~/generate:
     scoreboard players reset @s smolmen.dummy
     loot insert ~ ~1 ~ mine ~ 128 ~ stone[custom_data={drop_contents:1b}]
+    if items block ~ ~3 ~ container.1 blaze_rod loot insert ~ ~1 ~ mine ~ 128 ~ stone[custom_data={drop_contents:1b}]
 
 function ~/spawn:
     align xyz positioned ~.5 ~ ~.5 function ~/set:
