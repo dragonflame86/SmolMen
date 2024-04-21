@@ -8,6 +8,8 @@ append function smolmen:player/wfoas:
     scoreboard players reset @s smolmen.wfoas
 
 # gm control
+execute if entity @s[tag=smolmen.restricted.in_base] run tag @s add smolmen.restricted
+
 execute if entity @s[gamemode=survival,tag=smolmen.restricted] run gamemode adventure @s
 execute if entity @s[gamemode=adventure,tag=!smolmen.restricted] run gamemode survival @s
 execute if entity @s[gamemode=!spectator,tag=smolmen.dead] run gamemode spectator @s
@@ -17,6 +19,11 @@ execute if entity @s[team=blue,tag=smolmen.dead] unless entity @p[team=blue,dist
 
 execute if entity @s[team=red,tag=smolmen.dead] unless entity @e[tag=smolmen.red_beacon,tag=smolmen.regenerating] run function smolmen:player/exit_dead_state
 execute if entity @s[team=blue,tag=smolmen.dead] unless entity @e[tag=smolmen.blue_beacon,tag=smolmen.regenerating] run function smolmen:player/exit_dead_state
+
+attribute @s[tag=smolmen.restricted.in_base,tag=!smolmen.restricted.all,gamemode=adventure] minecraft:player.block_interaction_range modifier add 447fc5c3-5d47-4aba-8525-3ab4faf87b8b "protection" -1 add_multiplied_total
+tag @s[tag=smolmen.restricted.in_base,tag=!smolmen.restricted.all,gamemode=adventure] add smolmen.restricted.all
+attribute @s[tag=!smolmen.restricted.in_base,tag=smolmen.restricted.all] minecraft:player.block_interaction_range modifier remove 447fc5c3-5d47-4aba-8525-3ab4faf87b8b
+tag @s[tag=!smolmen.restricted.in_base,tag=smolmen.restricted.all] remove smolmen.restricted.all
 
 # remove gui items from inv
 execute if items entity @s container.* cobblestone[custom_data~{gui:1b}] clear @s *[custom_data~{gui:1b}]
