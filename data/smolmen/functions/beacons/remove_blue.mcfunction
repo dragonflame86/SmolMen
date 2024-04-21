@@ -6,4 +6,6 @@ execute unless entity 9e6899f4-114c-4cf5-8140-b5bac8423526 run return fail
 
 execute as 9e6899f4-114c-4cf5-8140-b5bac8423526 at @s run forceload remove ~ ~
 execute as 9e6899f4-114c-4cf5-8140-b5bac8423526 at @s run setblock ~ ~ ~ minecraft:air
+
+execute as 9e6899f4-114c-4cf5-8140-b5bac8423526 on passengers run kill @s
 kill 9e6899f4-114c-4cf5-8140-b5bac8423526

@@ -11,6 +11,7 @@ execute if score #timer.6000 smolmen.dummy matches 6000.. run scoreboard players
 
 # Remove gm take from players so beacons & sites can add it back
 tag @a remove smolmen.restricted
+tag @a remove smolmen.restricted.in_base
 
 # Beacons
 execute as a88e45ac-cfaf-45e4-85ca-05240c8b23b8 at @s run function smolmen:beacons/tick
