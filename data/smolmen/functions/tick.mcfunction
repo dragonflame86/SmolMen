@@ -67,4 +67,3 @@ function smolmen:m.set_scoreboard_value with storage smolmen:temp obj
 data modify storage smolmen:temp obj set value {display: "blue_leader_deaths", value: 0}
 execute store result storage smolmen:temp obj.value int 1 run scoreboard players get #blue_leader_deaths smolmen.dummy
 function smolmen:m.set_scoreboard_value with storage smolmen:temp obj
-

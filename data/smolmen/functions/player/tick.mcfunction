@@ -59,3 +59,6 @@ execute if score @s[team=red] smolmen.kill_blue matches 1.. run scoreboard playe
 execute if score @s[team=blue] smolmen.kill_red matches 1.. run scoreboard players add #blue_player_kills smolmen.dummy 1
 scoreboard players reset @s smolmen.kill_red
 scoreboard players reset @s smolmen.kill_blue
+
+# nerf night vision
+effect give @s[nbt={active_effects:[{id:"minecraft:night_vision"}]},gamemode=!creative,gamemode=!spectator] blindness 2 0 false
