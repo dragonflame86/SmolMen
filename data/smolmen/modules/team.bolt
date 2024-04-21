@@ -1,6 +1,6 @@
 
 
-append function ./tick:
+prepend function ./tick:
     as @a[team=!red,team=!blue] function ./team/choose
 
     as @a[team=red,scores={smolmen.leave=1..}] function ./team/red_relog with storage smolmen:const leaders
@@ -25,6 +25,7 @@ def pick_leader(team: str):
     raw attribute @s minecraft:generic.attack_damage modifier add 1234-0-0-0-1 "smolDamage" -0.33 add_multiplied_total
 
     loot give @s loot smolmen:attack_leader_horn
+
     execute if entity @s[team=red] run scoreboard players add #red_leader_deaths smolmen.dummy 1
     execute if entity @s[team=blue] run scoreboard players add #blue_leader_deaths smolmen.dummy 1
     
@@ -71,6 +72,7 @@ append function ./player/respawn:
     if entity @s[tag=smolmen.leader,team=blue] as @r[team=blue] function ./team/pick_blue_leader
 
 function ~/choose:
+    gamemode survival@s
     if score @s smolmen.team matches 1 function ~/join_red:
         team join red
         tellraw @a ["", {"selector": "@s"},{"text": " has joined the "}, {"text": "Red", "color": "red"}, {"text": " team"}]
@@ -89,8 +91,10 @@ function ~/choose:
         raw attribute @s minecraft:generic.jump_strength modifier remove 5-1-0-0-2 
         scoreboard players reset @s smolmen.team
         recipe give @s *
+        function ./player/respawn
 
-
+    gamemode spectator @s
+    tp @s[distance=1..] ~ ~ ~ 0 0
 
     scoreboard players enable @s smolmen.team
 
@@ -125,3 +129,4 @@ function ~/choose:
 
 append function ./check_items:
     raw execute if items entity @s contents #banners[custom_data={leader:1b}] run kill @s
+

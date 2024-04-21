@@ -3,8 +3,15 @@ Quick and dirty april fools datapack for SMITHED SMP.
 
 # Features
 
+
 ## Drills
-By putting fuel int
+By putting fuel into the drills, resources will be generated into the hopper automatically.
+Each resources has a different wait time for resources to spawn.
+Blaze rods as fuel will double the output rate.
+
+## Trader
+The sole trader on the map will cycle its trades daily.
+
 ## Total Darkness
 Blocks and entities not being touched by a light source are completely dark regardless of brightness level. Be careful of what lurks in the shadows.
  
@@ -13,6 +20,9 @@ When you join for the first time you'll have the option to join either the red o
 Each team has a designated leader which changes if they disconnect or die.
 
 The leader has increased health, damage, and size.
+
+### Team map
+Each team has their own shared maps, right click on drill site banners to share their locations on the map.
 
 ## Reduced Stack Sizes
 All items with a 64 stack size have been reduced to 16.
@@ -43,4 +53,5 @@ It is enchantable with sword and durability enchantments via the anvil.
 ### Extended Spear
 The extended spear has a farther reach and slower attack speed.
 
-![Extended Spear Recipe](/other/extended_spear_recipe.png)
+### Combat Plus
+Search "combat" in the crafting table to see it's recipes.
