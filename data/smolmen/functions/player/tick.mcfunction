@@ -22,6 +22,7 @@ execute if entity @s[team=blue,tag=smolmen.dead] unless entity @e[tag=smolmen.bl
 
 attribute @s[tag=smolmen.restricted.in_base,tag=!smolmen.restricted.all,gamemode=adventure] minecraft:player.block_interaction_range modifier add 447fc5c3-5d47-4aba-8525-3ab4faf87b8b "protection" -1 add_multiplied_total
 tag @s[tag=smolmen.restricted.in_base,tag=!smolmen.restricted.all,gamemode=adventure] add smolmen.restricted.all
+execute if entity @s[tag=smolmen.restricted.all] run function smolmen:player/check_for_beacon
 attribute @s[tag=!smolmen.restricted.in_base,tag=smolmen.restricted.all] minecraft:player.block_interaction_range modifier remove 447fc5c3-5d47-4aba-8525-3ab4faf87b8b
 tag @s[tag=!smolmen.restricted.in_base,tag=smolmen.restricted.all] remove smolmen.restricted.all
 
