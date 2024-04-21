@@ -3,6 +3,9 @@
 prepend function ./tick:
     as @a[team=!red,team=!blue] function ./team/choose
 
+    as @a[scores={smolmen.leave=1.., smolmen.combat=1..}] run tellraw @s {"text":"You have been killed for combat logging."}
+    as @a[scores={smolmen.leave=1.., smolmen.combat=1..}] run kill @s
+
     as @a[team=red,scores={smolmen.leave=1..}] function ./team/red_relog with storage smolmen:const leaders
     as @a[team=blue,scores={smolmen.leave=1..}] function ./team/blue_relog with storage smolmen:const leaders
 

@@ -15,6 +15,7 @@ scoreboard objectives add smolmen.display dummy {"text":"Smolmen Game", "color":
 
 scoreboard objectives add smolmen.team trigger
 scoreboard objectives add smolmen.id dummy
+scoreboard objectives add smolmen.combat dummy
 
 scoreboard objectives setdisplay below_name smolmen.health
 scoreboard objectives setdisplay list smolmen.death
