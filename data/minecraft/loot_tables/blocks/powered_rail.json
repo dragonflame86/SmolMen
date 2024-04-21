@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:powered_rail",
+          "functions": [
+            {
+              "function": "minecraft:set_components",
+              "components": {
+                "minecraft:max_stack_size": 16,
+                "minecraft:can_place_on": {"blocks":"#smolmen:place_on"}}
+            }
+          ]
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

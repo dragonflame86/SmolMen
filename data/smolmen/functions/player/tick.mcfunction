@@ -22,6 +22,7 @@ execute if entity @s[team=blue,tag=smolmen.dead] unless entity @e[tag=smolmen.bl
 
 attribute @s[tag=smolmen.restricted.in_base,tag=!smolmen.restricted.all,gamemode=adventure] minecraft:player.block_interaction_range modifier add 447fc5c3-5d47-4aba-8525-3ab4faf87b8b "protection" -1 add_multiplied_total
 tag @s[tag=smolmen.restricted.in_base,tag=!smolmen.restricted.all,gamemode=adventure] add smolmen.restricted.all
+execute if entity @s[tag=smolmen.restricted.all] run function smolmen:player/check_for_beacon
 attribute @s[tag=!smolmen.restricted.in_base,tag=smolmen.restricted.all] minecraft:player.block_interaction_range modifier remove 447fc5c3-5d47-4aba-8525-3ab4faf87b8b
 tag @s[tag=!smolmen.restricted.in_base,tag=smolmen.restricted.all] remove smolmen.restricted.all
 
@@ -66,6 +67,8 @@ execute if score @s[team=red] smolmen.kill_blue matches 1.. run scoreboard playe
 execute if score @s[team=blue] smolmen.kill_red matches 1.. run scoreboard players add #blue_player_kills smolmen.dummy 1
 scoreboard players reset @s smolmen.kill_red
 scoreboard players reset @s smolmen.kill_blue
+
+execute if score @s smolmen.combat matches 1.. run scoreboard players remove @s smolmen.combat 1
 
 # nerf night vision
 effect give @s[nbt={active_effects:[{id:"minecraft:night_vision"}]},gamemode=!creative,gamemode=!spectator] blindness 2 0 false
